@@ -1,0 +1,1302 @@
+{% extends "base.html" %}
+
+{% block title %}Creativity - Photo & Video Studio{% endblock %}
+
+{% block body %}
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+/* =====================================================
+   CREATIVITY PAGE — TOKENS
+===================================================== */
+
+.creativity-page {
+    --ink: #0c0c10;
+    --ink-2: #17171e;
+    --paper: #f5f3ee;
+    --muted: #92929c;
+    --citrus: #ffc53d;
+    --punch: #ff4d6d;
+    --cyan: #4dd6c8;
+
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Inter', system-ui, sans-serif;
+    overflow-x: hidden;
+}
+
+.creativity-page * {
+    box-sizing: border-box;
+}
+
+.creativity-page h1,
+.creativity-page h2,
+.creativity-page h3 {
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-weight: 700;
+    margin: 0;
+}
+
+.creativity-wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 7%;
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.creativity-hero {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    align-items: center;
+    gap: 40px;
+    padding: 110px 7% 90px;
+    min-height: 640px;
+    position: relative;
+}
+
+.creativity-dots {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 22px;
+}
+
+.creativity-dots span {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.creativity-dots span:nth-child(1) { background: var(--citrus); }
+.creativity-dots span:nth-child(2) { background: var(--punch); }
+.creativity-dots span:nth-child(3) { background: var(--cyan); }
+
+.creativity-hero h1 {
+    font-size: clamp(42px, 5.4vw, 72px);
+    line-height: 1.03;
+    letter-spacing: -2px;
+    max-width: 620px;
+}
+
+.creativity-hero-underline {
+    text-decoration: underline;
+    text-decoration-color: var(--punch);
+    text-decoration-thickness: 6px;
+    text-underline-offset: 4px;
+}
+
+.creativity-hero p {
+    max-width: 460px;
+    color: var(--muted);
+    font-size: 17px;
+    line-height: 1.75;
+    margin: 24px 0 32px;
+}
+
+.creativity-hero-buttons {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.creativity-btn {
+    padding: 15px 26px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    display: inline-block;
+    transition: transform .25s ease, background .25s ease;
+}
+
+.creativity-btn-solid {
+    background: var(--paper);
+    color: var(--ink);
+}
+
+.creativity-btn-solid:hover {
+    background: var(--citrus);
+    transform: translateY(-2px);
+}
+
+.creativity-btn-ghost {
+    border: 1px solid #3a3a44;
+    color: var(--paper);
+}
+
+.creativity-btn-ghost:hover {
+    border-color: var(--paper);
+}
+
+.creativity-hero-media {
+    position: relative;
+    height: 520px;
+    border-radius: 18px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateX(90px);
+    transition: transform 1s cubic-bezier(.16,.8,.28,1), opacity 1s ease;
+}
+
+.creativity-hero-media.in {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.creativity-hero-media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+}
+
+.creativity-hero-media img.active {
+    opacity: 1;
+}
+
+.creativity-hero-chip {
+    position: absolute;
+    left: -18px;
+    bottom: 28px;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    max-width: 200px;
+    box-shadow: 0 18px 40px rgba(0,0,0,.35);
+}
+
+.creativity-hero-chip strong {
+    display: block;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 22px;
+}
+
+
+/* =====================================================
+   FILMSTRIP — continuous side motion
+===================================================== */
+
+.creativity-filmstrip {
+    border-top: 1px solid #232329;
+    border-bottom: 1px solid #232329;
+    padding: 34px 0;
+    overflow: hidden;
+}
+
+.creativity-filmstrip-track {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    animation: creativity-scroll 42s linear infinite;
+}
+
+.creativity-filmstrip-track img {
+    width: 340px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 14px;
+    flex: none;
+    cursor: pointer;
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.creativity-filmstrip-track img:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,.4);
+}
+
+.creativity-filmstrip-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes creativity-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+
+/* =====================================================
+   PROCESS
+===================================================== */
+
+.creativity-process {
+    padding: 110px 7% 90px;
+}
+
+.creativity-process-head {
+    max-width: 520px;
+    margin-bottom: 60px;
+}
+
+.creativity-process-head h2 {
+    font-size: clamp(32px, 4vw, 46px);
+    letter-spacing: -1px;
+}
+
+.creativity-process-head p {
+    color: var(--muted);
+    margin-top: 14px;
+    line-height: 1.7;
+}
+
+.creativity-process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: #232329;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.creativity-process-step {
+    background: var(--ink-2);
+    padding: 34px 26px;
+}
+
+.creativity-process-step .num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 14px;
+    color: var(--citrus);
+    font-weight: 700;
+}
+
+.creativity-process-step h3 {
+    font-size: 20px;
+    margin: 14px 0 10px;
+}
+
+.creativity-process-step p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.65;
+    margin: 0;
+}
+
+
+/* =====================================================
+   VIDEO
+===================================================== */
+
+.creativity-video {
+    padding: 30px 7% 110px;
+}
+
+.creativity-video-head {
+    max-width: 520px;
+    margin-bottom: 40px;
+}
+
+.creativity-video-head h2 {
+    font-size: clamp(32px, 4vw, 46px);
+    letter-spacing: -1px;
+}
+
+.creativity-video-head p {
+    color: var(--muted);
+    margin-top: 14px;
+    line-height: 1.7;
+}
+
+.creativity-video-box {
+    position: relative;
+    max-width: 1180px;
+    height: 680px;
+    margin: 0 auto;
+    border-radius: 22px;
+    overflow: hidden;
+    background: linear-gradient(160deg, #232330, #17171e);
+    border: 1px solid #34343e;
+    box-shadow: 0 30px 70px rgba(0,0,0,.35);
+    cursor: pointer;
+}
+
+.creativity-video-box::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 22px;
+    padding: 2px;
+    background: linear-gradient(120deg, var(--citrus), var(--punch), var(--cyan));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: .55;
+    pointer-events: none;
+}
+
+.creativity-video-box video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.creativity-video-chip {
+    position: absolute;
+    right: 24px;
+    bottom: 24px;
+    background: rgba(23,23,30,.75);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,.18);
+    color: var(--paper);
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    max-width: 230px;
+    pointer-events: none;
+}
+
+.creativity-video-expand {
+    position: absolute;
+    left: 24px;
+    top: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(23,23,30,.75);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,.18);
+    color: var(--paper);
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    pointer-events: none;
+}
+
+.creativity-video-play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    background: var(--paper);
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    box-shadow: 0 16px 40px rgba(0,0,0,.4);
+    transition: transform .25s ease;
+    pointer-events: none;
+}
+
+.creativity-video-box:hover .creativity-video-play {
+    transform: translate(-50%, -50%) scale(1.08);
+}
+
+
+/* Fullscreen video lightbox */
+
+.creativity-video-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(10,10,13,.92);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.creativity-video-lightbox.show {
+    display: flex;
+}
+
+.creativity-video-lightbox-inner {
+    width: 100%;
+    max-width: 1200px;
+    aspect-ratio: 16/9;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 40px 100px rgba(0,0,0,.5);
+}
+
+.creativity-video-lightbox-inner video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.creativity-video-lightbox-close {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    width: 48px;
+    height: 48px;
+    border: 1px solid #555;
+    background: rgba(255,255,255,.1);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+
+/* Full-quality photo lightbox */
+
+.creativity-photo-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(10,10,13,.96);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+}
+
+.creativity-photo-lightbox.show {
+    display: flex;
+}
+
+.creativity-photo-lightbox img {
+    max-width: 94%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.creativity-photo-lightbox-close {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    width: 48px;
+    height: 48px;
+    border: 1px solid #555;
+    background: rgba(255,255,255,.1);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   GALLERY — alternating side entrance
+===================================================== */
+
+.creativity-gallery {
+    padding: 60px 7% 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 110px;
+}
+
+.creativity-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.creativity-row.reverse .creativity-row-media {
+    order: 2;
+}
+
+.creativity-row.reverse .creativity-row-text {
+    order: 1;
+}
+
+.creativity-row-media {
+    height: 420px;
+    border-radius: 16px;
+    overflow: hidden;
+    opacity: 0;
+    transition: transform 1s cubic-bezier(.16,.8,.28,1), opacity 1s ease;
+}
+
+.creativity-row-media.from-left {
+    transform: translateX(-110px);
+}
+
+.creativity-row-media.from-right {
+    transform: translateX(110px);
+}
+
+.creativity-row-media.in {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.creativity-row-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.creativity-row-tag {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--punch);
+    margin-bottom: 10px;
+}
+
+.creativity-row-text h3 {
+    font-size: 30px;
+    letter-spacing: -.5px;
+    margin-bottom: 14px;
+}
+
+.creativity-row-text p {
+    color: var(--muted);
+    line-height: 1.75;
+    max-width: 420px;
+}
+
+
+/* =====================================================
+   CLIENT LOVE
+===================================================== */
+
+.creativity-love {
+    background: var(--ink-2);
+    padding: 100px 7%;
+}
+
+.creativity-love-head {
+    text-align: left;
+    max-width: 480px;
+    margin-bottom: 50px;
+}
+
+.creativity-love-head h2 {
+    font-size: clamp(30px, 3.6vw, 42px);
+    letter-spacing: -1px;
+}
+
+.creativity-love-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.creativity-love-card {
+    background: var(--ink);
+    border: 1px solid #232329;
+    border-radius: 14px;
+    padding: 26px;
+}
+
+.creativity-love-card .stars {
+    color: var(--citrus);
+    font-size: 14px;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+}
+
+.creativity-love-card p {
+    color: #d7d7dc;
+    line-height: 1.65;
+    font-size: 15px;
+    margin: 0 0 16px;
+}
+
+.creativity-love-card .who {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+
+/* =====================================================
+   CTA
+===================================================== */
+
+.creativity-cta {
+    padding: 130px 7%;
+    text-align: center;
+    background:
+        radial-gradient(circle at 30% 20%, rgba(255,197,61,.14), transparent 45%),
+        radial-gradient(circle at 75% 80%, rgba(255,77,109,.14), transparent 45%),
+        var(--ink);
+}
+
+.creativity-cta h2 {
+    font-size: clamp(34px, 5vw, 58px);
+    letter-spacing: -1.5px;
+    max-width: 680px;
+    margin: 0 auto 20px;
+    line-height: 1.05;
+}
+
+.creativity-cta p {
+    color: var(--muted);
+    max-width: 480px;
+    margin: 0 auto 34px;
+    line-height: 1.7;
+}
+
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .creativity-hero-media,
+    .creativity-row-media {
+        transition: opacity .4s ease;
+        transform: none !important;
+    }
+
+    .creativity-filmstrip-track {
+        animation: none;
+    }
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .creativity-hero {
+        grid-template-columns: 1fr;
+        padding: 90px 6% 60px;
+    }
+
+    .creativity-hero-media {
+        height: 340px;
+    }
+
+    .creativity-filmstrip-track img {
+        width: 240px;
+        height: 160px;
+    }
+
+    .creativity-process-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .creativity-row,
+    .creativity-row.reverse {
+        grid-template-columns: 1fr;
+    }
+
+    .creativity-row.reverse .creativity-row-media,
+    .creativity-row.reverse .creativity-row-text {
+        order: initial;
+    }
+
+    .creativity-row-media {
+        height: 320px;
+    }
+
+    .creativity-video-box {
+        height: 460px;
+    }
+
+    .creativity-love-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 560px) {
+
+    .creativity-process-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .creativity-hero-chip {
+        display: none;
+    }
+
+}
+
+</style>
+
+
+<div class="creativity-page">
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="creativity-hero">
+
+    <div class="creativity-hero-copy">
+
+        <div class="creativity-dots">
+            <span></span><span></span><span></span>
+        </div>
+
+        <h1>
+            We don't just shoot —
+            we <span class="creativity-hero-underline">invent</span> the shot.
+        </h1>
+
+        <p>
+            Concepts, color, light and a little bit of chaos.
+            This is where our team plays before a single frame
+            goes to a client.
+        </p>
+
+        <div class="creativity-hero-buttons">
+
+            <a href="/booking" class="creativity-btn creativity-btn-solid">
+                Start a project
+            </a>
+
+            <a href="#gallery" class="creativity-btn creativity-btn-ghost">
+                See the work
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="creativity-hero-media" id="creativityHeroMedia">
+
+        <img
+            class="active"
+            src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=1400&q=90"
+            alt="Colour and light study">
+
+        <img
+            src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=1400&q=90"
+            alt="Abstract art detail">
+
+        <img
+            src="https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&w=1400&q=90"
+            alt="Studio paint work">
+
+        <img
+            src="https://images.unsplash.com/photo-1502691876148-a84978e59af8?auto=format&fit=crop&w=1400&q=90"
+            alt="Creative studio setup">
+
+        <div class="creativity-hero-chip">
+            <strong>40+</strong>
+            experimental concepts shot this year
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     FILMSTRIP
+===================================================== -->
+
+<section class="creativity-filmstrip">
+
+    <div class="creativity-filmstrip-track" id="creativityFilmstrip">
+
+        <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=1600&q=90" alt="" onclick="openPhotoLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=1600&q=90" alt="" onclick="openPhotoLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1518998053901-5348d3961a04?auto=format&fit=crop&w=1600&q=90" alt="" onclick="openPhotoLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1461344577544-4e5dc9487184?auto=format&fit=crop&w=1600&q=90" alt="" onclick="openPhotoLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1600&q=90" alt="" onclick="openPhotoLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1502691876148-a84978e59af8?auto=format&fit=crop&w=1600&q=90" alt="" onclick="openPhotoLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&w=1600&q=90" alt="" onclick="openPhotoLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1600&q=90" alt="" onclick="openPhotoLightbox(this.src)">
+
+        <!-- duplicate set for seamless loop -->
+        <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=1600&q=90" alt="" onclick="openPhotoLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=1600&q=90" alt="" onclick="openPhotoLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1518998053901-5348d3961a04?auto=format&fit=crop&w=1600&q=90" alt="" onclick="openPhotoLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1461344577544-4e5dc9487184?auto=format&fit=crop&w=1600&q=90" alt="" onclick="openPhotoLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1600&q=90" alt="" onclick="openPhotoLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1502691876148-a84978e59af8?auto=format&fit=crop&w=1600&q=90" alt="" onclick="openPhotoLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&w=1600&q=90" alt="" onclick="openPhotoLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1600&q=90" alt="" onclick="openPhotoLightbox(this.src)">
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PROCESS
+===================================================== -->
+
+<section class="creativity-process">
+
+    <div class="creativity-process-head">
+        <h2>How an idea becomes a frame</h2>
+        <p>Four honest steps, no jargon. Every project — big or small — moves through the same rhythm.</p>
+    </div>
+
+    <div class="creativity-process-grid">
+
+        <div class="creativity-process-step">
+            <div class="num">01</div>
+            <h3>Discover</h3>
+            <p>We ask what the story actually is before we ask what the shot list is.</p>
+        </div>
+
+        <div class="creativity-process-step">
+            <div class="num">02</div>
+            <h3>Concept</h3>
+            <p>Mood boards, colour tests and rough sketches until one idea feels right.</p>
+        </div>
+
+        <div class="creativity-process-step">
+            <div class="num">03</div>
+            <h3>Create</h3>
+            <p>On set, plans stay loose enough to catch the moment we didn't plan for.</p>
+        </div>
+
+        <div class="creativity-process-step">
+            <div class="num">04</div>
+            <h3>Deliver</h3>
+            <p>Edited, graded and handed over — ready to make someone stop scrolling.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     VIDEO
+===================================================== -->
+
+<section class="creativity-video">
+
+    <div class="creativity-video-head">
+        <h2>Watch it come together</h2>
+        <p>A full HD wedding film from our latest shoot — crisp, cinematic, tap it to watch full screen.</p>
+    </div>
+
+    <div class="creativity-video-box" id="creativityVideoBox" onclick="openVideoLightbox()">
+
+        <video
+            id="creativityVideoPreview"
+            muted
+            loop
+            autoplay
+            playsinline
+            poster="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1800&q=90">
+
+            <source
+                src="https://assets.mixkit.co/videos/preview/mixkit-wedding-couple-in-a-field-1862-large.mp4"
+                type="video/mp4">
+
+            Your browser does not support video playback.
+
+        </video>
+
+        <div class="creativity-video-expand">
+            ⤢ Tap to expand
+        </div>
+
+        <div class="creativity-video-chip">
+            Happy newlyweds — full HD wedding film
+        </div>
+
+        <div class="creativity-video-play">▶</div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     VIDEO LIGHTBOX
+===================================================== -->
+
+<div class="creativity-video-lightbox" id="creativityVideoLightbox">
+
+    <button
+        class="creativity-video-lightbox-close"
+        onclick="closeVideoLightbox(event)">
+        ×
+    </button>
+
+    <div class="creativity-video-lightbox-inner">
+
+        <video
+            id="creativityVideoFull"
+            controls
+            playsinline
+            poster="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1800&q=90">
+
+            <source
+                src="https://assets.mixkit.co/videos/preview/mixkit-wedding-couple-in-a-field-1862-large.mp4"
+                type="video/mp4">
+
+            Your browser does not support video playback.
+
+        </video>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     PHOTO LIGHTBOX
+===================================================== -->
+
+<div class="creativity-photo-lightbox" id="creativityPhotoLightbox">
+
+    <button
+        class="creativity-photo-lightbox-close"
+        onclick="closePhotoLightbox(event)">
+        ×
+    </button>
+
+    <img
+        id="creativityPhotoLightboxImg"
+        src=""
+        alt="">
+
+</div>
+
+
+<!-- =====================================================
+     GALLERY
+===================================================== -->
+
+<section class="creativity-gallery" id="gallery">
+
+    <div class="creativity-row">
+
+        <div class="creativity-row-media from-left">
+            <img
+                src="https://images.unsplash.com/photo-1547891654-e66ed7ebb968?auto=format&fit=crop&w=1600&q=90"
+                alt="Colour study"
+                onclick="openPhotoLightbox(this.src)"
+                style="cursor:pointer">
+        </div>
+
+        <div class="creativity-row-text">
+            <div class="creativity-row-tag">Colour Study</div>
+            <h3>Urban Textures</h3>
+            <p>A week spent chasing wall paint, rust and neon signage across the city — just to see what colour does when nobody's posing for it.</p>
+        </div>
+
+    </div>
+
+
+    <div class="creativity-row reverse">
+
+        <div class="creativity-row-media from-right">
+            <img
+                src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1600&q=90"
+                alt="Liquid light concept"
+                onclick="openPhotoLightbox(this.src)"
+                style="cursor:pointer">
+        </div>
+
+        <div class="creativity-row-text">
+            <div class="creativity-row-tag">Concept Shoot</div>
+            <h3>Liquid Light</h3>
+            <p>Water, gel filters and a single moving bulb. Ninety minutes of setup for three seconds of footage — worth every one of them.</p>
+        </div>
+
+    </div>
+
+
+    <div class="creativity-row">
+
+        <div class="creativity-row-media from-left">
+            <img
+                src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1600&q=90"
+                alt="Paper set design"
+                onclick="openPhotoLightbox(this.src)"
+                style="cursor:pointer">
+        </div>
+
+        <div class="creativity-row-text">
+            <div class="creativity-row-tag">Set Design</div>
+            <h3>Paper Worlds</h3>
+            <p>An entire miniature set built from card and craft paper, lit like a feature film, shot on a table the size of a desk.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CLIENT LOVE
+===================================================== -->
+
+<section class="creativity-love">
+
+    <div class="creativity-love-head">
+        <h2>What it's like working with us</h2>
+    </div>
+
+    <div class="creativity-love-grid">
+
+        <div class="creativity-love-card">
+            <div class="stars">★★★★★</div>
+            <p>They pitched three ideas we'd never have thought to ask for, and the one we picked outperformed everything else in the campaign.</p>
+            <div class="who">Meera Shah, Brand Lead</div>
+        </div>
+
+        <div class="creativity-love-card">
+            <div class="stars">★★★★★</div>
+            <p>Genuinely fun to be on set with, and the turnaround was faster than any studio we've used before. Already booked again.</p>
+            <div class="who">Arjun Verma, Founder</div>
+        </div>
+
+        <div class="creativity-love-card">
+            <div class="stars">★★★★★</div>
+            <p>Our wedding video still makes our families cry, in a good way. They caught things we didn't even know happened.</p>
+            <div class="who">Priya & Rohan</div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CTA
+===================================================== -->
+
+<section class="creativity-cta">
+
+    <h2>Got a slightly wild idea? Good. Let's make it real.</h2>
+    <p>No brief is too rough — bring us a napkin sketch or a fully locked deck, we'll meet you where you are.</p>
+
+    <a href="/booking" class="creativity-btn creativity-btn-solid">
+        Start a project
+    </a>
+
+</section>
+
+
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT — side-entrance reveals
+===================================================== -->
+
+<script>
+
+(function () {
+
+    var prefersReduced =
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Hero image slides in shortly after load
+    var hero = document.getElementById("creativityHeroMedia");
+
+    if (hero) {
+
+        if (prefersReduced) {
+
+            hero.classList.add("in");
+
+        } else {
+
+            window.requestAnimationFrame(function () {
+
+                setTimeout(function () {
+                    hero.classList.add("in");
+                }, 150);
+
+            });
+
+        }
+
+    }
+
+    // Hero cover keeps changing through a soft crossfade
+    var heroImages = hero
+        ? hero.querySelectorAll("img")
+        : [];
+
+    if (heroImages.length > 1 && !prefersReduced) {
+
+        var heroIndex = 0;
+
+        setInterval(function () {
+
+            heroImages[heroIndex].classList.remove("active");
+
+            heroIndex = (heroIndex + 1) % heroImages.length;
+
+            heroImages[heroIndex].classList.add("active");
+
+        }, 4000);
+
+    }
+
+    // Gallery rows slide in from their side as they enter view
+    var revealTargets =
+        document.querySelectorAll(".creativity-row-media");
+
+    if (prefersReduced) {
+
+        revealTargets.forEach(function (el) {
+            el.classList.add("in");
+        });
+
+    } else if ("IntersectionObserver" in window) {
+
+        var observer = new IntersectionObserver(
+            function (entries) {
+
+                entries.forEach(function (entry) {
+
+                    if (entry.isIntersecting) {
+
+                        entry.target.classList.add("in");
+                        observer.unobserve(entry.target);
+
+                    }
+
+                });
+
+            },
+            { threshold: 0.25 }
+        );
+
+        revealTargets.forEach(function (el) {
+            observer.observe(el);
+        });
+
+    } else {
+
+        revealTargets.forEach(function (el) {
+            el.classList.add("in");
+        });
+
+    }
+
+})();
+
+
+/* =========================================
+   VIDEO LIGHTBOX
+========================================= */
+
+function openVideoLightbox() {
+
+    var lightbox = document.getElementById("creativityVideoLightbox");
+    var fullVideo = document.getElementById("creativityVideoFull");
+    var previewVideo = document.getElementById("creativityVideoPreview");
+
+    if (previewVideo) {
+        previewVideo.pause();
+    }
+
+    lightbox.classList.add("show");
+
+    document.body.style.overflow = "hidden";
+
+    if (fullVideo) {
+        fullVideo.currentTime = 0;
+        fullVideo.play();
+    }
+
+}
+
+function closeVideoLightbox(event) {
+
+    if (event) {
+        event.stopPropagation();
+    }
+
+    var lightbox = document.getElementById("creativityVideoLightbox");
+    var fullVideo = document.getElementById("creativityVideoFull");
+    var previewVideo = document.getElementById("creativityVideoPreview");
+
+    lightbox.classList.remove("show");
+
+    document.body.style.overflow = "";
+
+    if (fullVideo) {
+        fullVideo.pause();
+    }
+
+    if (previewVideo) {
+        previewVideo.play();
+    }
+
+}
+
+document
+    .getElementById("creativityVideoLightbox")
+    .addEventListener("click", function (event) {
+
+        if (event.target === this) {
+            closeVideoLightbox();
+        }
+
+    });
+
+document.addEventListener("keydown", function (event) {
+
+    if (event.key === "Escape") {
+        closeVideoLightbox();
+        closePhotoLightbox();
+    }
+
+});
+
+
+/* =========================================
+   PHOTO LIGHTBOX — full quality, no crop
+========================================= */
+
+function openPhotoLightbox(src) {
+
+    var lightbox = document.getElementById("creativityPhotoLightbox");
+    var img = document.getElementById("creativityPhotoLightboxImg");
+
+    img.src = src;
+
+    lightbox.classList.add("show");
+
+    document.body.style.overflow = "hidden";
+
+}
+
+function closePhotoLightbox(event) {
+
+    if (event) {
+        event.stopPropagation();
+    }
+
+    var lightbox = document.getElementById("creativityPhotoLightbox");
+
+    lightbox.classList.remove("show");
+
+    document.body.style.overflow = "";
+
+}
+
+document
+    .getElementById("creativityPhotoLightbox")
+    .addEventListener("click", function (event) {
+
+        if (event.target === this) {
+            closePhotoLightbox();
+        }
+
+    });
+
+</script>
+
+{% endblock %}

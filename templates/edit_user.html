@@ -1,0 +1,513 @@
+{% extends "base.html" %}
+
+{% block title %}Edit User{% endblock title %}
+
+{% block body %}
+
+<style>
+
+    .edit-user-page {
+        min-height: calc(100vh - 80px);
+        background: #f4f6f9;
+        padding: 45px 15px 100px;
+    }
+
+    .edit-user-container {
+        max-width: 700px;
+        margin: auto;
+    }
+
+    .edit-user-card {
+        background: white;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 10px 35px rgba(0,0,0,0.10);
+    }
+
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    .edit-user-header {
+        background: linear-gradient(135deg, #111827, #343a40);
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+
+    .user-icon {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 15px;
+
+        border-radius: 50%;
+
+        background: rgba(255,255,255,0.15);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 32px;
+    }
+
+    .edit-user-header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 800;
+    }
+
+    .edit-user-header p {
+        margin: 8px 0 0;
+        color: #d1d5db;
+        font-size: 14px;
+    }
+
+
+    /* =========================
+       FORM
+    ========================= */
+
+    .edit-user-form {
+        padding: 35px;
+    }
+
+    .user-info {
+        margin-bottom: 25px;
+        padding: 15px;
+
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 9px;
+
+        font-size: 13px;
+        color: #6c757d;
+    }
+
+    .user-info strong {
+        color: #343a40;
+    }
+
+    .form-group {
+        margin-bottom: 22px;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+
+        font-size: 14px;
+        font-weight: 700;
+
+        color: #343a40;
+    }
+
+    .required {
+        color: #dc3545;
+    }
+
+    .form-control {
+        width: 100%;
+
+        padding: 13px 15px;
+
+        border: 1px solid #d9dee3;
+        border-radius: 9px;
+
+        font-size: 14px;
+
+        outline: none;
+
+        transition: all 0.2s;
+
+        box-sizing: border-box;
+    }
+
+    .form-control:focus {
+        border-color: #111827;
+
+        box-shadow: 0 0 0 3px rgba(17,24,39,0.08);
+    }
+
+
+    /* =========================
+       PASSWORD
+    ========================= */
+
+    .password-wrapper {
+        position: relative;
+    }
+
+    .password-wrapper .form-control {
+        padding-right: 50px;
+    }
+
+    .password-toggle {
+        position: absolute;
+
+        right: 12px;
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        border: none;
+        background: transparent;
+
+        cursor: pointer;
+
+        font-size: 18px;
+    }
+
+    .password-note {
+        margin-top: 7px;
+
+        font-size: 12px;
+
+        color: #6c757d;
+    }
+
+
+    /* =========================
+       ROLE
+    ========================= */
+
+    .role-info {
+        margin-top: 7px;
+
+        font-size: 12px;
+
+        color: #6c757d;
+    }
+
+
+    /* =========================
+       BUTTONS
+    ========================= */
+
+    .button-row {
+        display: flex;
+
+        gap: 12px;
+
+        margin-top: 30px;
+    }
+
+    .btn-cancel {
+        flex: 1;
+
+        padding: 13px;
+
+        border-radius: 9px;
+
+        background: #e9ecef;
+
+        color: #343a40;
+
+        text-decoration: none;
+
+        text-align: center;
+
+        font-size: 14px;
+
+        font-weight: 700;
+
+        transition: 0.2s;
+    }
+
+    .btn-cancel:hover {
+        background: #dee2e6;
+        color: #212529;
+    }
+
+    .btn-update {
+        flex: 1;
+
+        padding: 13px;
+
+        border: none;
+
+        border-radius: 9px;
+
+        background: #111827;
+
+        color: white;
+
+        font-size: 14px;
+
+        font-weight: 700;
+
+        cursor: pointer;
+
+        transition: 0.2s;
+    }
+
+    .btn-update:hover {
+        background: #343a40;
+
+        transform: translateY(-1px);
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 600px) {
+
+        .edit-user-page {
+            padding: 25px 10px 80px;
+        }
+
+        .edit-user-header {
+            padding: 25px 20px;
+        }
+
+        .edit-user-header h1 {
+            font-size: 24px;
+        }
+
+        .edit-user-form {
+            padding: 25px 20px;
+        }
+
+        .button-row {
+            flex-direction: column;
+        }
+
+    }
+
+</style>
+
+
+<div class="edit-user-page">
+
+    <div class="edit-user-container">
+
+        <div class="edit-user-card">
+
+
+            <!-- HEADER -->
+
+            <div class="edit-user-header">
+
+                <div class="user-icon">
+                    ✏️
+                </div>
+
+                <h1>
+                    Edit User
+                </h1>
+
+                <p>
+                    Update user account information
+                </p>
+
+            </div>
+
+
+            <!-- FORM -->
+
+            <div class="edit-user-form">
+
+
+                <!-- USER INFORMATION -->
+
+                <div class="user-info">
+
+                    Editing User:
+
+                    <strong>
+                        #{{ user.sno }} - {{ user.username }}
+                    </strong>
+
+                </div>
+
+
+                <form method="POST"
+                      action="{{ url_for('edit_user', sno=user.sno) }}">
+
+
+                    <!-- USERNAME -->
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+
+                            Username
+
+                            <span class="required">*</span>
+
+                        </label>
+
+                        <input type="text"
+                               name="username"
+                               class="form-control"
+                               value="{{ user.username }}"
+                               placeholder="Enter username"
+                               required>
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+
+                            Email Address
+
+                            <span class="required">*</span>
+
+                        </label>
+
+                        <input type="email"
+                               name="email"
+                               class="form-control"
+                               value="{{ user.email }}"
+                               placeholder="Enter email address"
+                               required>
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+
+                            Password
+
+                        </label>
+
+
+                        <div class="password-wrapper">
+
+                            <input type="password"
+                                   name="password"
+                                   id="password"
+                                   class="form-control"
+                                   placeholder="Leave blank to keep current password">
+
+                            <button type="button"
+                                    class="password-toggle"
+                                    onclick="togglePassword()">
+
+                                👁️
+
+                            </button>
+
+                        </div>
+
+
+                        <div class="password-note">
+
+                            Leave blank if you do not want to change the current password.
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ROLE -->
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+
+                            User Role
+
+                            <span class="required">*</span>
+
+                        </label>
+
+
+                        <select name="role"
+                                class="form-control"
+                                required>
+
+                            <option value="User"
+                                {% if user.role == "User" %}selected{% endif %}>
+
+                                User
+
+                            </option>
+
+                            <option value="Admin"
+                                {% if user.role == "Admin" %}selected{% endif %}>
+
+                                Admin
+
+                            </option>
+
+                        </select>
+
+
+                        <div class="role-info">
+
+                            User = Normal user |
+                            Admin = Administrator access
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BUTTONS -->
+
+                    <div class="button-row">
+
+                        <a href="{{ url_for('admin_users') }}"
+                           class="btn-cancel">
+
+                            ← Cancel
+
+                        </a>
+
+
+                        <button type="submit"
+                                class="btn-update">
+
+                            ✓ Update User
+
+                        </button>
+
+                    </div>
+
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function togglePassword() {
+
+    const password =
+        document.getElementById("password");
+
+    if (password.type === "password") {
+
+        password.type = "text";
+
+    } else {
+
+        password.type = "password";
+
+    }
+
+}
+
+</script>
+
+
+{% endblock body %}

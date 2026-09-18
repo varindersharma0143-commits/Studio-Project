@@ -1,0 +1,1257 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock title %}
+{% block body %}
+
+<style>    
+    .admin-page {
+        min-height: calc(100vh - 80px);
+        background: #f4f6f9;
+        padding: 35px 0 100px;
+    }
+
+    .admin-container {
+        max-width: 1200px;
+        margin: auto;
+    }    
+
+    .dashboard-header {
+        background: linear-gradient(135deg, #111827, #343a40);
+        color: white;
+        padding: 30px;
+        border-radius: 18px;
+        margin-bottom: 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .dashboard-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 30px;
+    }
+    .dashboard-title {
+        flex: 1;
+    }
+
+    .dashboard-title h1 {
+        font-size: 32px;
+        font-weight: 800;
+        margin: 0 0 7px;
+    }
+
+    .dashboard-title p {
+        margin: 0;
+        color: #d1d5db;
+        font-size: 15px;
+    }
+    .dashboard-date {
+        margin-top: 15px;
+        font-size: 14px;
+        color: #adb5bd;
+    }   
+
+    .user-management-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: white;
+        color: #111827;
+        padding: 13px 20px;
+
+        border-radius: 10px;
+
+        text-decoration: none;
+
+        font-size: 14px;
+        font-weight: 700;
+
+        white-space: nowrap;
+
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+
+        transition: all 0.3s ease;
+    }
+
+
+    .user-management-btn:hover {
+        background: #f3f4f6;
+
+        color: #111827;
+
+        transform: translateY(-2px);
+
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.20);
+    }
+
+
+    /* =====================================================
+       STATISTICS
+    ===================================================== */
+
+    .stats-row {
+        margin-bottom: 25px;
+    }
+
+
+    .stat-card {
+        background: white;
+
+        border-radius: 16px;
+
+        padding: 24px;
+
+        height: 100%;
+
+        border: 1px solid #edf0f2;
+
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+
+        transition: all 0.3s ease;
+
+        position: relative;
+
+        overflow: hidden;
+    }
+
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.10);
+    }
+
+
+    .stat-card::after {
+        content: "";
+
+        position: absolute;
+
+        width: 80px;
+        height: 80px;
+
+        border-radius: 50%;
+
+        right: -25px;
+        top: -25px;
+
+        background: rgba(0, 0, 0, 0.03);
+    }
+
+
+    .stat-top {
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+    }
+
+
+    .stat-icon {
+        width: 52px;
+        height: 52px;
+
+        border-radius: 13px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        font-size: 24px;
+    }
+
+
+    .icon-booking {
+        background: #e7f1ff;
+    }
+
+
+    .icon-pending {
+        background: #fff3cd;
+    }
+
+
+    .icon-success {
+        background: #d1e7dd;
+    }
+
+
+    .icon-message {
+        background: #cff4fc;
+    }
+
+
+    .stat-number {
+        font-size: 32px;
+
+        font-weight: 800;
+
+        color: #212529;
+
+        margin-top: 18px;
+    }
+
+
+    .stat-title {
+        color: #6c757d;
+
+        font-size: 14px;
+
+        font-weight: 600;
+    }
+
+
+    /* =====================================================
+       DASHBOARD BOX
+    ===================================================== */
+
+    .dashboard-box {
+        background: white;
+
+        border-radius: 18px;
+
+        padding: 25px;
+
+        margin-bottom: 25px;
+
+        border: 1px solid #edf0f2;
+
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+    }
+
+
+    .section-heading {
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        margin-bottom: 20px;
+    }
+
+
+    .section-heading h2 {
+        font-size: 22px;
+
+        font-weight: 800;
+
+        margin: 0;
+    }
+
+
+    .section-heading span {
+        color: #6c757d;
+
+        font-size: 13px;
+    }
+
+
+    /* =====================================================
+       TABLE
+    ===================================================== */
+
+    .table-container {
+        width: 100%;
+
+        overflow-x: auto;
+    }
+
+
+    .admin-table {
+        width: 100%;
+
+        min-width: 1050px;
+
+        border-collapse: separate;
+
+        border-spacing: 0;
+    }
+
+
+    .admin-table thead th {
+        background: #212529;
+
+        color: white;
+
+        padding: 14px 13px;
+
+        font-size: 13px;
+
+        font-weight: 700;
+
+        white-space: nowrap;
+
+        border: none;
+    }
+
+
+    .admin-table thead th:first-child {
+        border-radius: 8px 0 0 8px;
+    }
+
+
+    .admin-table thead th:last-child {
+        border-radius: 0 8px 8px 0;
+    }
+
+
+    .admin-table tbody td {
+        padding: 15px 13px;
+
+        border-bottom: 1px solid #edf0f2;
+
+        font-size: 14px;
+
+        color: #343a40;
+
+        vertical-align: middle;
+    }
+
+
+    .admin-table tbody tr {
+        transition: 0.2s;
+    }
+
+
+    .admin-table tbody tr:hover {
+        background: #f8f9fa;
+    }
+
+
+    .customer-name {
+        font-weight: 700;
+
+        color: #212529;
+    }
+
+
+    .booking-number {
+        font-weight: 800;
+
+        color: #495057;
+    }
+
+
+    .email-text {
+        color: #6c757d;
+    }
+
+
+    .message-text {
+        max-width: 300px;
+
+        line-height: 1.5;
+    }
+
+
+    /* =====================================================
+       STATUS
+    ===================================================== */
+
+    .status {
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 5px;
+
+        padding: 7px 13px;
+
+        border-radius: 30px;
+
+        font-size: 12px;
+
+        font-weight: 800;
+
+        white-space: nowrap;
+    }
+
+
+    .status-pending {
+        background: #fff3cd;
+
+        color: #856404;
+
+        border: 1px solid #ffe69c;
+
+        text-decoration: none;
+    }
+
+
+    .status-pending:hover {
+        background: #ffc107;
+
+        color: #212529;
+
+        text-decoration: none;
+    }
+
+
+    .status-successful {
+        background: #d1e7dd;
+
+        color: #0f5132;
+
+        border: 1px solid #a3cfbb;
+    }
+
+
+    .status-new {
+        background: #cff4fc;
+
+        color: #055160;
+
+        border: 1px solid #9eeaf9;
+    }
+
+
+    /* =====================================================
+       PAGINATION
+    ===================================================== */
+
+    .pagination-area {
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+
+        gap: 7px;
+
+        margin-top: 25px;
+
+        flex-wrap: wrap;
+    }
+
+
+    .page-btn {
+        min-width: 40px;
+
+        height: 40px;
+
+        padding: 0 13px;
+
+        border-radius: 8px;
+
+        border: 1px solid #dee2e6;
+
+        background: white;
+
+        color: #212529;
+
+        text-decoration: none;
+
+        display: inline-flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        font-size: 13px;
+
+        font-weight: 700;
+
+        transition: 0.2s;
+    }
+
+
+    .page-btn:hover {
+        background: #212529;
+
+        color: white;
+
+        border-color: #212529;
+    }
+
+
+    .page-btn.active {
+        background: #212529;
+
+        color: white;
+
+        border-color: #212529;
+    }
+
+
+    .page-dots {
+        padding: 0 5px;
+
+        color: #6c757d;
+    }
+
+
+    /* =====================================================
+       EMPTY
+    ===================================================== */
+
+    .empty-row {
+        text-align: center;
+
+        padding: 40px !important;
+
+        color: #868e96 !important;
+    }
+
+
+    .empty-icon {
+        font-size: 35px;
+
+        display: block;
+
+        margin-bottom: 10px;
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 768px) {
+
+        .admin-page {
+            padding: 20px 10px 100px;
+        }
+
+
+        .dashboard-header {
+            padding: 25px 20px;
+        }
+
+
+        .dashboard-top {
+            flex-direction: column;
+
+            align-items: flex-start;
+
+            gap: 20px;
+        }
+
+
+        .dashboard-title h1 {
+            font-size: 26px;
+        }
+
+
+        .user-management-btn {
+            width: 100%;
+        }
+
+
+        .dashboard-box {
+            padding: 18px;
+        }
+
+
+        .section-heading {
+            flex-direction: column;
+
+            align-items: flex-start;
+
+            gap: 7px;
+        }
+
+
+        .section-heading h2 {
+            font-size: 19px;
+        }
+
+
+        .stat-number {
+            font-size: 28px;
+        }
+
+    }
+
+</style>
+<div class="admin-page">
+
+    <div class="container admin-container">
+        <div class="dashboard-header">
+            <div class="dashboard-top">
+                <!-- LEFT -->
+                <div class="dashboard-title">
+                    <h1>
+                        Admin Dashboard
+                    </h1>
+
+                    <p>
+                        Manage your studio bookings and customer enquiries.
+                    </p>
+
+                    <div class="dashboard-date">
+                        📊 Studio Management Panel
+                    </div>
+
+                </div>
+
+
+                <!-- RIGHT -->
+
+                <div>
+
+                    <a href="{{ url_for('admin_users') }}"
+                       class="user-management-btn">
+                        👥 User Management
+                    </a>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             STATISTICS
+        ================================================== -->
+
+        <div class="row g-4 stats-row">
+
+
+            <!-- TOTAL BOOKINGS -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <div class="stat-title">
+                                TOTAL BOOKINGS
+                            </div>
+
+                        </div>
+
+                        <div class="stat-icon icon-booking">
+                            📅
+                        </div>
+                    </div>
+                    <div class="stat-number">
+                        {{ pagination.total }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- PENDING -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <div class="stat-title">
+                                PENDING
+                            </div>
+
+                        </div>
+
+                        <div class="stat-icon icon-pending">
+                            ⏳
+                        </div>
+                    </div>
+                    <div class="stat-number">
+                        {{ pending_count }}
+                    </div>
+                </div>
+            </div>
+            <!-- SUCCESSFUL -->
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <div class="stat-title">
+                                SUCCESSFUL
+                            </div>
+
+                        </div>
+
+                        <div class="stat-icon icon-success">
+                            ✓
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-number">
+                        {{ successful_count }}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- MESSAGES -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <div class="stat-title">
+                                MESSAGES
+                            </div>
+
+                        </div>
+
+                        <div class="stat-icon icon-message">
+                            📩
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-number">
+                        {{ messages|length }}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             BOOKING REQUESTS
+        ================================================== -->
+
+        <div class="dashboard-box">
+
+
+            <div class="section-heading">
+
+                <h2>
+                    📅 Booking Requests
+                </h2>
+
+                <span>
+                    {{ pagination.total }} total bookings
+                </span>
+
+            </div>
+
+
+
+            <div class="table-container">
+
+                <table class="admin-table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Booking No.
+                            </th>
+
+                            <th>
+                                Customer
+                            </th>
+
+                            <th>
+                                Phone
+                            </th>
+
+                            <th>
+                                Email
+                            </th>
+
+                            <th>
+                                Service
+                            </th>
+
+                            <th>
+                                Package
+                            </th>
+
+                            <th>
+                                Event Date
+                            </th>
+
+                            <th>
+                                Time
+                            </th>
+
+                            <th>
+                                Location
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+
+                    <tbody>
+
+
+                        {% for booking in bookings %}
+
+                        <tr>
+
+
+                            <!-- Booking No -->
+
+                            <td>
+
+                                <span class="booking-number">
+                                    #{{ booking.sno }}
+                                </span>
+
+                            </td>
+
+
+                            <!-- Customer -->
+
+                            <td>
+
+                                <span class="customer-name">
+                                    {{ booking.name }}
+                                </span>
+
+                            </td>
+
+
+                            <!-- Phone -->
+
+                            <td>
+                                {{ booking.phone }}
+                            </td>
+
+
+                            <!-- Email -->
+
+                            <td>
+
+                                <span class="email-text">
+                                    {{ booking.email }}
+                                </span>
+
+                            </td>
+
+
+                            <!-- Service -->
+
+                            <td>
+                                {{ booking.service }}
+                            </td>
+
+
+                            <!-- Package -->
+
+                            <td>
+                                {{ booking.package }}
+                            </td>
+
+
+                            <!-- Event Date -->
+
+                            <td>
+                                {{ booking.event_date }}
+                            </td>
+
+
+                            <!-- Time -->
+
+                            <td>
+                                {{ booking.event_time }}
+                            </td>
+
+
+                            <!-- Location -->
+
+                            <td>
+                                {{ booking.location }}
+                            </td>
+
+
+                            <!-- Status -->
+
+                            <td>
+
+
+                                {% if booking.status == 'Successful' %}
+
+                                    <span class="status status-successful">
+
+                                        ✓ Successful
+
+                                    </span>
+
+
+                                {% else %}
+
+                                    <a href="{{ url_for('update_booking_status', sno=booking.sno) }}"
+                                       class="status status-pending"
+                                       onclick="return confirm('Are you sure you want to mark this booking as Successful?');">
+
+                                        ⏳ Pending
+
+                                    </a>
+
+                                {% endif %}
+
+
+                            </td>
+
+
+                        </tr>
+
+
+                        {% else %}
+
+
+                        <tr>
+
+                            <td colspan="10"
+                                class="empty-row">
+
+                                <span class="empty-icon">
+                                    📭
+                                </span>
+
+                                No booking requests found.
+
+                            </td>
+
+                        </tr>
+
+
+                        {% endfor %}
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 PAGINATION
+            ================================================== -->
+
+            {% if pagination.pages > 1 %}
+
+            <div class="pagination-area">
+
+
+                {% if pagination.has_prev %}
+
+                    <a href="{{ url_for('admin', page=pagination.prev_num) }}"
+                       class="page-btn">
+
+                        ← Previous
+
+                    </a>
+
+                {% endif %}
+
+
+
+                {% for page_num in pagination.iter_pages(
+                    left_edge=1,
+                    left_current=1,
+                    right_current=1,
+                    right_edge=1
+                ) %}
+
+
+                    {% if page_num %}
+
+
+                        {% if page_num == pagination.page %}
+
+                            <span class="page-btn active">
+                                {{ page_num }}
+                            </span>
+
+
+                        {% else %}
+
+                            <a href="{{ url_for('admin', page=page_num) }}"
+                               class="page-btn">
+
+                                {{ page_num }}
+
+                            </a>
+
+                        {% endif %}
+
+
+                    {% else %}
+
+                        <span class="page-dots">
+                            ...
+                        </span>
+
+                    {% endif %}
+
+
+                {% endfor %}
+
+
+
+                {% if pagination.has_next %}
+
+                    <a href="{{ url_for('admin', page=pagination.next_num) }}"
+                       class="page-btn">
+
+                        Next →
+
+                    </a>
+
+                {% endif %}
+
+
+            </div>
+
+            {% endif %}
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             CUSTOMER MESSAGES
+        ================================================== -->
+
+        <div class="dashboard-box">
+
+
+            <div class="section-heading">
+
+                <h2>
+                    📩 Customer Messages
+                </h2>
+
+                <span>
+                    {{ messages|length }} messages
+                </span>
+
+            </div>
+
+
+
+            <div class="table-container">
+
+                <table class="admin-table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Message No.
+                            </th>
+
+                            <th>
+                                Name
+                            </th>
+
+                            <th>
+                                Phone
+                            </th>
+
+                            <th>
+                                Email
+                            </th>
+
+                            <th>
+                                Service
+                            </th>
+
+                            <th>
+                                Message
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Date
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+
+                    <tbody>
+
+
+                        {% for msg in messages %}
+
+                        <tr>
+
+
+                            <!-- Message No -->
+
+                            <td>
+
+                                <span class="booking-number">
+                                    #{{ msg.sno }}
+                                </span>
+
+                            </td>
+
+
+                            <!-- Name -->
+
+                            <td>
+
+                                <span class="customer-name">
+                                    {{ msg.name }}
+                                </span>
+
+                            </td>
+
+
+                            <!-- Phone -->
+
+                            <td>
+                                {{ msg.phone }}
+                            </td>
+
+
+                            <!-- Email -->
+
+                            <td>
+
+                                <span class="email-text">
+                                    {{ msg.email }}
+                                </span>
+
+                            </td>
+
+
+                            <!-- Service -->
+
+                            <td>
+                                {{ msg.service }}
+                            </td>
+
+
+                            <!-- Message -->
+
+                            <td>
+
+                                <div class="message-text">
+                                    {{ msg.message }}
+                                </div>
+
+                            </td>
+
+
+                            <!-- Status -->
+
+                            <td>
+
+
+                                {% if msg.status == 'New' %}
+
+                                    <span class="status status-new">
+
+                                        ● New
+
+                                    </span>
+
+
+                                {% else %}
+
+                                    <span class="status status-successful">
+
+                                        ✓ {{ msg.status }}
+
+                                    </span>
+
+                                {% endif %}
+
+
+                            </td>
+
+
+                            <!-- Date -->
+
+                            <td>
+
+                                {% if msg.created_date %}
+
+                                    {{ msg.created_date.strftime('%d-%m-%Y') }}
+
+                                {% endif %}
+
+                            </td>
+
+
+                        </tr>
+
+
+                        {% else %}
+
+
+                        <tr>
+
+                            <td colspan="8"
+                                class="empty-row">
+
+                                <span class="empty-icon">
+                                    📭
+                                </span>
+
+                                No customer messages found.
+
+                            </td>
+
+                        </tr>
+
+
+                        {% endfor %}
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+{% endblock body %}

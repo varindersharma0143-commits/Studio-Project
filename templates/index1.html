@@ -1,0 +1,1120 @@
+{% extends "base.html" %}
+
+{% block title %}Photo & Video Studio{% endblock %}
+
+{% block body %}
+
+<style>
+
+/* =========================
+   HERO
+========================= */
+
+.home-hero {
+    position: relative;
+    min-height: 680px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background:
+        linear-gradient(90deg,
+            rgba(5, 8, 15, .95) 0%,
+            rgba(5, 8, 15, .78) 45%,
+            rgba(5, 8, 15, .25) 100%),
+        url("https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=2000&q=85")
+        center/cover no-repeat;
+}
+
+.home-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        circle at 75% 45%,
+        rgba(255,255,255,.08),
+        transparent 35%
+    );
+}
+
+.hero-inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 80px 25px;
+}
+
+.hero-small-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 22px;
+}
+
+.hero-small-title::before {
+    content: "";
+    width: 42px;
+    height: 2px;
+    background: #fff;
+}
+
+.home-hero h1 {
+    max-width: 750px;
+    color: #fff;
+    font-size: clamp(48px, 7vw, 88px);
+    line-height: 1.02;
+    font-weight: 800;
+    letter-spacing: -3px;
+    margin: 0;
+}
+
+.home-hero h1 span {
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+}
+
+.hero-description {
+    max-width: 590px;
+    color: rgba(255,255,255,.78);
+    font-size: 17px;
+    line-height: 1.8;
+    margin: 28px 0;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.hero-main-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: #fff;
+    color: #111;
+    padding: 15px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: .3s;
+}
+
+.hero-main-btn:hover {
+    transform: translateY(-3px);
+    background: #f1f1f1;
+    color: #111;
+}
+
+.hero-outline-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    border: 1px solid rgba(255,255,255,.5);
+    color: #fff;
+    padding: 15px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: .3s;
+}
+
+.hero-outline-btn:hover {
+    background: #fff;
+    color: #111;
+}
+
+/* floating camera info */
+
+.hero-floating-card {
+    position: absolute;
+    z-index: 3;
+    right: 8%;
+    bottom: 70px;
+    width: 230px;
+    padding: 20px;
+    background: rgba(255,255,255,.11);
+    border: 1px solid rgba(255,255,255,.22);
+    backdrop-filter: blur(15px);
+    border-radius: 16px;
+    color: #fff;
+}
+
+.hero-floating-card .number {
+    font-size: 35px;
+    font-weight: 800;
+}
+
+.hero-floating-card p {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: rgba(255,255,255,.72);
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+.home-stats {
+    background: #111827;
+    color: #fff;
+    padding: 28px 20px;
+}
+
+.stats-container {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.stat-item {
+    text-align: center;
+    padding: 10px;
+    border-right: 1px solid rgba(255,255,255,.12);
+}
+
+.stat-item:last-child {
+    border-right: none;
+}
+
+.stat-item strong {
+    display: block;
+    font-size: 30px;
+}
+
+.stat-item span {
+    color: #9ca3af;
+    font-size: 13px;
+}
+
+
+/* =========================
+   INTRO
+========================= */
+
+.intro-section {
+    padding: 100px 20px;
+    background: #fff;
+}
+
+.intro-container {
+    max-width: 1150px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.section-label {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #6b7280;
+}
+
+.intro-content h2 {
+    font-size: 48px;
+    line-height: 1.1;
+    color: #111827;
+    margin: 15px 0 22px;
+}
+
+.intro-content h2 span {
+    font-style: italic;
+    font-weight: 400;
+}
+
+.intro-content p {
+    color: #6b7280;
+    line-height: 1.8;
+    font-size: 16px;
+}
+
+.intro-image {
+    position: relative;
+}
+
+.intro-image img {
+    width: 100%;
+    height: 470px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.intro-badge {
+    position: absolute;
+    bottom: -25px;
+    left: -25px;
+    background: #111827;
+    color: #fff;
+    padding: 25px;
+    width: 180px;
+    border-radius: 8px;
+}
+
+.intro-badge strong {
+    display: block;
+    font-size: 28px;
+}
+
+
+/* =========================
+   SERVICES
+========================= */
+
+.home-services {
+    padding: 100px 20px;
+    background: #f6f7f9;
+}
+
+.section-head {
+    max-width: 1150px;
+    margin: 0 auto 50px;
+}
+
+.section-head h2 {
+    font-size: 46px;
+    color: #111827;
+    margin: 10px 0;
+}
+
+.section-head p {
+    color: #6b7280;
+    max-width: 600px;
+}
+
+.service-grid-home {
+    max-width: 1150px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+
+.home-service-card {
+    position: relative;
+    min-height: 330px;
+    padding: 35px;
+    border-radius: 12px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+}
+
+.home-service-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(0,0,0,.15),
+        rgba(0,0,0,.85)
+    );
+}
+
+.home-service-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.service-number {
+    font-size: 13px;
+    color: rgba(255,255,255,.7);
+    margin-bottom: 8px;
+}
+
+.home-service-card h3 {
+    font-size: 29px;
+    margin: 0 0 10px;
+}
+
+.home-service-card p {
+    color: rgba(255,255,255,.78);
+    line-height: 1.6;
+    margin-bottom: 18px;
+}
+
+.home-service-link {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+
+/* =========================
+   PORTFOLIO
+========================= */
+
+.home-portfolio {
+    padding: 100px 20px;
+    background: #fff;
+}
+
+.portfolio-home-grid {
+    max-width: 1150px;
+    margin: 45px auto;
+    display: grid;
+    grid-template-columns: 1.2fr .8fr .8fr;
+    grid-template-rows: 260px 260px;
+    gap: 15px;
+}
+
+.port-home-item {
+    overflow: hidden;
+    border-radius: 7px;
+}
+
+.port-home-item:first-child {
+    grid-row: span 2;
+}
+
+.port-home-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: .5s;
+}
+
+.port-home-item:hover img {
+    transform: scale(1.06);
+}
+
+.portfolio-button {
+    text-align: center;
+}
+
+.portfolio-button a {
+    display: inline-block;
+    background: #111827;
+    color: #fff;
+    padding: 14px 26px;
+    border-radius: 7px;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+
+/* =========================
+   EXPERIENCE
+========================= */
+
+.experience-section {
+    background: #111827;
+    color: #fff;
+    padding: 90px 20px;
+}
+
+.experience-container {
+    max-width: 1100px;
+    margin: auto;
+    text-align: center;
+}
+
+.experience-container h2 {
+    font-size: 46px;
+    margin: 10px 0 20px;
+}
+
+.experience-container p {
+    max-width: 650px;
+    margin: auto;
+    color: #9ca3af;
+    line-height: 1.8;
+}
+
+.experience-points {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
+    margin-top: 50px;
+}
+
+.exp-box {
+    padding: 28px;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 10px;
+    background: rgba(255,255,255,.04);
+}
+
+.exp-box .icon {
+    font-size: 30px;
+    margin-bottom: 12px;
+}
+
+.exp-box h3 {
+    margin-bottom: 8px;
+}
+
+.exp-box p {
+    font-size: 14px;
+}
+
+
+/* =========================
+   CTA
+========================= */
+
+.home-cta {
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: 80px 20px;
+    background:
+        linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.75)),
+        url("https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1800&q=85")
+        center/cover;
+}
+
+.cta-inner {
+    max-width: 800px;
+    margin: auto;
+    color: #fff;
+}
+
+.cta-inner span {
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.cta-inner h2 {
+    font-size: 48px;
+    line-height: 1.15;
+    margin: 15px 0;
+}
+
+.cta-inner p {
+    color: rgba(255,255,255,.75);
+    line-height: 1.7;
+    margin-bottom: 28px;
+}
+
+.cta-button {
+    display: inline-block;
+    background: #fff;
+    color: #111;
+    padding: 15px 28px;
+    border-radius: 7px;
+    text-decoration: none;
+    font-weight: 800;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width: 900px) {
+
+    .hero-floating-card {
+        display: none;
+    }
+
+    .intro-container {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+
+    .service-grid-home {
+        grid-template-columns: 1fr;
+    }
+
+    .portfolio-home-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 250px 250px 250px;
+    }
+
+    .port-home-item:first-child {
+        grid-row: span 1;
+    }
+
+    .experience-points {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-container {
+        grid-template-columns: repeat(2,1fr);
+        row-gap: 20px;
+    }
+
+    .stat-item:nth-child(2) {
+        border-right: none;
+    }
+}
+
+@media(max-width: 600px) {
+
+    .home-hero {
+        min-height: 620px;
+    }
+
+    .hero-inner {
+        padding: 60px 20px;
+    }
+
+    .home-hero h1 {
+        font-size: 48px;
+        letter-spacing: -2px;
+    }
+
+    .hero-description {
+        font-size: 15px;
+    }
+
+    .intro-section,
+    .home-services,
+    .home-portfolio {
+        padding: 70px 18px;
+    }
+
+    .intro-content h2,
+    .section-head h2,
+    .experience-container h2,
+    .cta-inner h2 {
+        font-size: 36px;
+    }
+
+    .intro-image img {
+        height: 350px;
+    }
+
+    .intro-badge {
+        left: 10px;
+    }
+
+    .portfolio-home-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, 280px);
+    }
+
+    .stats-container {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .stat-item {
+        border-right: none;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .hero-main-btn,
+    .hero-outline-btn {
+        justify-content: center;
+    }
+}
+
+</style>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="home-hero">
+
+    <div class="hero-inner">
+
+        <div class="hero-small-title">
+            PROFESSIONAL PHOTO & VIDEO STUDIO
+        </div>
+
+        <h1>
+            Your Story.
+            <span>Our Lens.</span>
+        </h1>
+
+        <p class="hero-description">
+            We capture emotions, create stunning visuals and transform
+            your special moments into memories that last forever.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="/booking" class="hero-main-btn">
+                📅 Book Your Session
+                →
+            </a>
+
+            <a href="/portfolio" class="hero-outline-btn">
+                View Our Work
+                →
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-floating-card">
+
+        <div class="number">500+</div>
+
+        <p>
+            Moments captured with
+            creativity & passion
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     STATS
+========================= -->
+
+<section class="home-stats">
+
+    <div class="stats-container">
+
+        <div class="stat-item">
+            <strong>500+</strong>
+            <span>Projects Completed</span>
+        </div>
+
+        <div class="stat-item">
+            <strong>300+</strong>
+            <span>Happy Clients</span>
+        </div>
+
+        <div class="stat-item">
+            <strong>5+</strong>
+            <span>Years Experience</span>
+        </div>
+
+        <div class="stat-item">
+            <strong>100%</strong>
+            <span>Creative Passion</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     INTRO
+========================= -->
+
+<section class="intro-section">
+
+    <div class="intro-container">
+
+        <div class="intro-content">
+
+            <span class="section-label">
+                WELCOME TO MY STUDIO
+            </span>
+
+            <h2>
+                We don't just take
+                <span>photos.</span>
+                We create stories.
+            </h2>
+
+            <p>
+                From beautiful portraits and unforgettable weddings
+                to professional business videos and creative photo
+                editing, we bring your ideas to life.
+            </p>
+
+            <p>
+                Every frame is carefully created with attention to
+                detail, creativity and professional quality.
+            </p>
+
+        </div>
+
+
+        <div class="intro-image">
+
+            <img
+                src="https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?auto=format&fit=crop&w=1000&q=85"
+                alt="Professional Photography"
+            >
+
+            <div class="intro-badge">
+                <strong>5+</strong>
+                Years of
+                Creative Experience
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     SERVICES
+========================= -->
+
+<section class="home-services">
+
+    <div class="section-head">
+
+        <span class="section-label">
+            WHAT WE OFFER
+        </span>
+
+        <h2>
+            Creative Services
+        </h2>
+
+        <p>
+            Professional photography, video production and photo
+            editing services designed for your needs.
+        </p>
+
+    </div>
+
+
+    <div class="service-grid-home">
+
+
+        <!-- CARD 1 -->
+
+        <div class="home-service-card"
+             style="background-image:url('https://images.unsplash.com/photo-1520857014576-2c4f4c972b57?auto=format&fit=crop&w=1200&q=85');">
+
+            <div class="home-service-content">
+
+                <div class="service-number">
+                    01 / PHOTOGRAPHY
+                </div>
+
+                <h3>
+                    Wedding & Event Photography
+                </h3>
+
+                <p>
+                    Capture every emotion and memorable moment
+                    of your special day.
+                </p>
+
+                <a href="/portfolio" class="home-service-link">
+                    Explore Photography →
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- CARD 2 -->
+
+        <div class="home-service-card"
+             style="background-image:url('https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1200&q=85');">
+
+            <div class="home-service-content">
+
+                <div class="service-number">
+                    02 / VIDEO
+                </div>
+
+                <h3>
+                    Professional Video Production
+                </h3>
+
+                <p>
+                    Weddings, events, corporate videos and
+                    social media content.
+                </p>
+
+                <a href="/video" class="home-service-link">
+                    Explore Video →
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- CARD 3 -->
+
+        <div class="home-service-card"
+             style="background-image:url('https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?auto=format&fit=crop&w=1200&q=85');">
+
+            <div class="home-service-content">
+
+                <div class="service-number">
+                    03 / EDITING
+                </div>
+
+                <h3>
+                    Photoshop & Photo Editing
+                </h3>
+
+                <p>
+                    Professional retouching, background removal,
+                    color correction and creative editing.
+                </p>
+
+                <a href="/photoshop" class="home-service-link">
+                    Explore Editing →
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- CARD 4 -->
+
+        <div class="home-service-card"
+             style="background-image:url('https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=85');">
+
+            <div class="home-service-content">
+
+                <div class="service-number">
+                    04 / CORPORATE
+                </div>
+
+                <h3>
+                    Corporate & Brand Content
+                </h3>
+
+                <p>
+                    Professional visual content for companies,
+                    products and brands.
+                </p>
+
+                <a href="/booking" class="home-service-link">
+                    Start Your Project →
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     PORTFOLIO
+========================= -->
+
+<section class="home-portfolio">
+
+    <div class="section-head">
+
+        <span class="section-label">
+            SELECTED WORK
+        </span>
+
+        <h2>
+            A Glimpse of Our Work
+        </h2>
+
+        <p>
+            A few moments and projects captured through our lens.
+        </p>
+
+    </div>
+
+
+    <div class="portfolio-home-grid">
+
+        <div class="port-home-item">
+
+            <img
+                src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=85"
+                alt="Wedding Photography"
+            >
+
+        </div>
+
+
+        <div class="port-home-item">
+
+            <img
+                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=85"
+                alt="Portrait Photography"
+            >
+
+        </div>
+
+
+        <div class="port-home-item">
+
+            <img
+                src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=85"
+                alt="Wedding Moment"
+            >
+
+        </div>
+
+
+        <div class="port-home-item">
+
+            <img
+                src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=800&q=85"
+                alt="Portrait"
+            >
+
+        </div>
+
+
+        <div class="port-home-item">
+
+            <img
+                src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=85"
+                alt="Event Photography"
+            >
+
+        </div>
+
+    </div>
+
+
+    <div class="portfolio-button">
+
+        <a href="/portfolio">
+            View Full Portfolio →
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     EXPERIENCE
+========================= -->
+
+<section class="experience-section">
+
+    <div class="experience-container">
+
+        <span class="section-label">
+            WHY MY STUDIO
+        </span>
+
+        <h2>
+            Creativity Behind
+            Every Frame
+        </h2>
+
+        <p>
+            We combine professional equipment, creative thinking
+            and attention to detail to deliver visuals that make
+            your moments unforgettable.
+        </p>
+
+
+        <div class="experience-points">
+
+            <div class="exp-box">
+
+                <div class="icon">
+                    📷
+                </div>
+
+                <h3>
+                    Professional Equipment
+                </h3>
+
+                <p>
+                    High-quality cameras and professional
+                    production equipment.
+                </p>
+
+            </div>
+
+
+            <div class="exp-box">
+
+                <div class="icon">
+                    ✨
+                </div>
+
+                <h3>
+                    Creative Approach
+                </h3>
+
+                <p>
+                    Every project receives a unique creative
+                    approach and attention to detail.
+                </p>
+
+            </div>
+
+
+            <div class="exp-box">
+
+                <div class="icon">
+                    ⚡
+                </div>
+
+                <h3>
+                    Timely Delivery
+                </h3>
+
+                <p>
+                    Professional workflow designed for
+                    reliable and timely delivery.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CTA
+========================= -->
+
+<section class="home-cta">
+
+    <div class="cta-inner">
+
+        <span>
+            HAVE A PROJECT IN MIND?
+        </span>
+
+        <h2>
+            Let's Create Something
+            Beautiful Together.
+        </h2>
+
+        <p>
+            Whether it's your wedding, an event, a business project
+            or simply a beautiful portrait — let's capture it.
+        </p>
+
+        <a href="/booking" class="cta-button">
+            Book Your Session →
+        </a>
+
+    </div>
+
+</section>
+
+
+{% endblock %}

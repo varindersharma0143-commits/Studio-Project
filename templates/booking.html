@@ -1,0 +1,1569 @@
+{% extends "base.html" %}
+
+{% block title %}Book Your Session - Photo & Video Studio{% endblock %}
+
+{% block body %}
+
+<!-- ================= HERO ================= -->
+
+<section class="booking-hero">
+
+    <div class="booking-hero-content">
+
+        <span>BOOK YOUR SESSION</span>
+
+        <h1>
+            Let's Capture
+            <strong>Your Story.</strong>
+        </h1>
+
+        <p>
+            Tell us about your event, photography or video requirement.
+            Fill in the form and our team will contact you shortly.
+        </p>
+
+        <div class="booking-trust">
+
+            <div>
+                <strong>500+</strong>
+                <small>Projects</small>
+            </div>
+
+            <div>
+                <strong>100+</strong>
+                <small>Clients</small>
+            </div>
+
+            <div>
+                <strong>4K</strong>
+                <small>Quality</small>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="booking-hero-image">
+
+        <img
+            src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1800&q=90"
+            alt="Photo Studio Event">
+
+        <div class="booking-image-card">
+
+            <span>📅</span>
+
+            <div>
+                <strong>Reserve Your Date</strong>
+                <small>Limited dates available</small>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= BOOKING SECTION ================= -->
+
+<section class="booking-section">
+
+    <div class="booking-wrapper">
+
+        <!-- LEFT INFO -->
+
+        <div class="booking-info">
+
+            <span class="booking-small-title">
+                GET STARTED
+            </span>
+
+            <h2>
+                Tell Us About
+                <br>
+                Your Project
+            </h2>
+
+            <p>
+                Share a few details about your requirement.
+                Our team will review your request and contact
+                you to discuss availability and final pricing.
+            </p>
+
+
+            <div class="booking-benefit">
+
+                <div class="benefit-icon">
+                    📸
+                </div>
+
+                <div>
+                    <strong>Professional Photography</strong>
+                    <span>High-quality images & editing</span>
+                </div>
+
+            </div>
+
+
+            <div class="booking-benefit">
+
+                <div class="benefit-icon">
+                    🎥
+                </div>
+
+                <div>
+                    <strong>Cinematic Video</strong>
+                    <span>Professional shooting & editing</span>
+                </div>
+
+            </div>
+
+
+            <div class="booking-benefit">
+
+                <div class="benefit-icon">
+                    ✨
+                </div>
+
+                <div>
+                    <strong>Photo Editing</strong>
+                    <span>Professional Photoshop services</span>
+                </div>
+
+            </div>
+
+
+            <div class="booking-contact-box">
+
+                <span>NEED HELP?</span>
+
+                <strong>Talk to our team</strong>
+
+                <p>
+                    We'll help you choose the right package
+                    for your event.
+                </p>
+
+                <a href="/contact">
+                    Contact Us →
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <div class="booking-form-card">
+
+            <div class="form-header">
+
+                <span>BOOKING REQUEST</span>
+
+                <h2>Reserve Your Session</h2>
+
+                <p>
+                    Please fill in the details below.
+                </p>
+
+            </div>
+
+
+            <form action="/booking" method="POST">
+
+
+                <!-- NAME + PHONE -->
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label>
+                            Full Name *
+                        </label>
+
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Enter your full name"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Mobile Number *
+                        </label>
+
+                        <input
+                            type="tel"
+                            name="phone"
+                            placeholder="Enter mobile number"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label>
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Enter your email address">
+
+                </div>
+
+
+                <!-- SERVICE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Select Service *
+                    </label>
+
+                    <select
+                        name="service"
+                        id="service"
+                        required
+                        onchange="updatePackage()">
+
+                        <option value="">
+                            Select a service
+                        </option>
+
+                        <option value="Photography">
+                            📸 Photography
+                        </option>
+
+                        <option value="Video">
+                            🎥 Video Production
+                        </option>
+
+                        <option value="Photoshop">
+                            ✨ Photoshop / Photo Editing
+                        </option>
+
+                        <option value="Wedding">
+                            💍 Wedding Photography & Video
+                        </option>
+
+                        <option value="Corporate">
+                            🏢 Corporate Video
+                        </option>
+
+                        <option value="Reels">
+                            📱 Reels & Social Media
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- PACKAGE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Select Package
+                    </label>
+
+                    <select name="package" id="package">
+
+                        <option value="">
+                            Select package
+                        </option>
+
+                        <option value="Basic">
+                            Basic Package
+                        </option>
+
+                        <option value="Standard">
+                            Standard Package
+                        </option>
+
+                        <option value="Premium">
+                            Premium Package
+                        </option>
+
+                        <option value="Custom">
+                            Custom Package
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- DATE + TIME -->
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label>
+                            Event Date *
+                        </label>
+
+                        <input
+                            type="date"
+                            name="event_date"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Preferred Time
+                        </label>
+
+                        <input
+                            type="time"
+                            name="event_time">
+
+                    </div>
+
+                </div>
+
+
+                <!-- LOCATION -->
+
+                <div class="form-group">
+
+                    <label>
+                        Event / Shoot Location
+                    </label>
+
+                    <input
+                        type="text"
+                        name="location"
+                        placeholder="Enter event location">
+
+                </div>
+
+
+                <!-- REQUIREMENT -->
+
+                <div class="form-group">
+
+                    <label>
+                        Tell Us About Your Requirement
+                    </label>
+
+                    <textarea
+                        name="message"
+                        rows="5"
+                        placeholder="Tell us about your event, number of people, type of shoot, special requirements etc."></textarea>
+
+                </div>
+
+
+                <!-- TERMS -->
+
+                <label class="booking-check">
+
+                    <input
+                        type="checkbox"
+                        required>
+
+                    <span>
+                        I agree to be contacted regarding my booking request.
+                    </span>
+
+                </label>
+
+
+                <!-- SUBMIT -->
+
+                <button
+                    type="submit"
+                    class="booking-submit">
+
+                    Submit Booking Request
+
+                    <span>→</span>
+
+                </button>
+
+
+                <div class="secure-note">
+
+                    🔒 Your information is kept private and secure.
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= STEPS ================= -->
+
+<section class="booking-steps">
+
+    <div class="booking-heading">
+
+        <span>HOW IT WORKS</span>
+
+        <h2>
+            Booking Is Simple
+        </h2>
+
+    </div>
+
+
+    <div class="steps-grid">
+
+        <div class="step-card">
+
+            <div class="step-number">
+                01
+            </div>
+
+            <div class="step-icon">
+                📝
+            </div>
+
+            <h3>
+                Send Request
+            </h3>
+
+            <p>
+                Fill out the booking form with your
+                event details.
+            </p>
+
+        </div>
+
+
+        <div class="step-card">
+
+            <div class="step-number">
+                02
+            </div>
+
+            <div class="step-icon">
+                📞
+            </div>
+
+            <h3>
+                We Contact You
+            </h3>
+
+            <p>
+                Our team will contact you to discuss
+                your requirements.
+            </p>
+
+        </div>
+
+
+        <div class="step-card">
+
+            <div class="step-number">
+                03
+            </div>
+
+            <div class="step-icon">
+                📅
+            </div>
+
+            <h3>
+                Confirm Date
+            </h3>
+
+            <p>
+                Select your package and confirm
+                your event date.
+            </p>
+
+        </div>
+
+
+        <div class="step-card">
+
+            <div class="step-number">
+                04
+            </div>
+
+            <div class="step-icon">
+                📸
+            </div>
+
+            <h3>
+                Enjoy Your Shoot
+            </h3>
+
+            <p>
+                Our team captures your beautiful
+                moments professionally.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CTA ================= -->
+
+<section class="booking-cta">
+
+    <div>
+
+        <span>HAVE QUESTIONS?</span>
+
+        <h2>
+            Not Sure Which Package
+            <br>
+            Is Right For You?
+        </h2>
+
+        <p>
+            Don't worry. Talk to our team and we'll help
+            you choose the right option for your event.
+        </p>
+
+        <a href="/contact">
+            Talk to Us →
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CSS ================= -->
+
+<style>
+
+/* ================= HERO ================= */
+
+.booking-hero {
+
+    min-height: 620px;
+
+    padding: 80px 8%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 60px;
+
+    background:
+        radial-gradient(
+            circle at 10% 20%,
+            rgba(124,58,237,.2),
+            transparent 35%
+        ),
+        #111827;
+
+    color: white;
+
+}
+
+
+.booking-hero-content {
+
+    width: 52%;
+
+}
+
+
+.booking-hero-content > span {
+
+    color: #a78bfa;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    letter-spacing: 3px;
+
+}
+
+
+.booking-hero h1 {
+
+    font-size: 60px;
+
+    line-height: 1.08;
+
+    margin: 20px 0;
+
+}
+
+
+.booking-hero h1 strong {
+
+    display: block;
+
+    color: #a78bfa;
+
+}
+
+
+.booking-hero p {
+
+    max-width: 650px;
+
+    color: #d1d5db;
+
+    font-size: 18px;
+
+    line-height: 1.7;
+
+}
+
+
+/* TRUST */
+
+.booking-trust {
+
+    display: flex;
+
+    gap: 45px;
+
+    margin-top: 40px;
+
+}
+
+
+.booking-trust div {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+.booking-trust strong {
+
+    font-size: 28px;
+
+}
+
+
+.booking-trust small {
+
+    color: #9ca3af;
+
+}
+
+
+/* HERO IMAGE */
+
+.booking-hero-image {
+
+    width: 43%;
+
+    height: 460px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 25px;
+
+}
+
+
+.booking-hero-image img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+}
+
+
+.booking-image-card {
+
+    position: absolute;
+
+    left: 20px;
+
+    right: 20px;
+
+    bottom: 20px;
+
+    padding: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    background: rgba(0,0,0,.7);
+
+    backdrop-filter: blur(10px);
+
+    border-radius: 14px;
+
+}
+
+
+.booking-image-card > span {
+
+    font-size: 30px;
+
+}
+
+
+.booking-image-card strong {
+
+    display: block;
+
+}
+
+
+.booking-image-card small {
+
+    color: #d1d5db;
+
+}
+
+
+/* ================= BOOKING SECTION ================= */
+
+.booking-section {
+
+    padding: 100px 7%;
+
+    background: #f8fafc;
+
+}
+
+
+.booking-wrapper {
+
+    max-width: 1200px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: .85fr 1.15fr;
+
+    gap: 60px;
+
+}
+
+
+/* INFO */
+
+.booking-info {
+
+    padding-top: 20px;
+
+}
+
+
+.booking-small-title {
+
+    color: #7c3aed;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    letter-spacing: 3px;
+
+}
+
+
+.booking-info h2 {
+
+    font-size: 42px;
+
+    line-height: 1.15;
+
+    margin: 15px 0;
+
+}
+
+
+.booking-info > p {
+
+    color: #6b7280;
+
+    line-height: 1.7;
+
+    margin-bottom: 35px;
+
+}
+
+
+.booking-benefit {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin: 22px 0;
+
+}
+
+
+.benefit-icon {
+
+    width: 50px;
+
+    height: 50px;
+
+    flex-shrink: 0;
+
+    border-radius: 12px;
+
+    background: #ede9fe;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 22px;
+
+}
+
+
+.booking-benefit strong {
+
+    display: block;
+
+    font-size: 15px;
+
+}
+
+
+.booking-benefit span {
+
+    display: block;
+
+    color: #9ca3af;
+
+    font-size: 13px;
+
+    margin-top: 4px;
+
+}
+
+
+/* CONTACT BOX */
+
+.booking-contact-box {
+
+    margin-top: 40px;
+
+    padding: 25px;
+
+    border-radius: 16px;
+
+    background: #111827;
+
+    color: white;
+
+}
+
+
+.booking-contact-box > span {
+
+    color: #a78bfa;
+
+    font-size: 10px;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+
+}
+
+
+.booking-contact-box strong {
+
+    display: block;
+
+    font-size: 20px;
+
+    margin: 7px 0;
+
+}
+
+
+.booking-contact-box p {
+
+    color: #9ca3af;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+}
+
+
+.booking-contact-box a {
+
+    display: inline-block;
+
+    margin-top: 10px;
+
+    color: #c4b5fd;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+}
+
+
+/* ================= FORM ================= */
+
+.booking-form-card {
+
+    background: white;
+
+    padding: 40px;
+
+    border-radius: 22px;
+
+    border: 1px solid #e5e7eb;
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.08);
+
+}
+
+
+.form-header {
+
+    margin-bottom: 30px;
+
+}
+
+
+.form-header > span {
+
+    color: #7c3aed;
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+
+}
+
+
+.form-header h2 {
+
+    margin: 8px 0;
+
+    font-size: 28px;
+
+}
+
+
+.form-header p {
+
+    color: #9ca3af;
+
+    margin: 0;
+
+}
+
+
+/* FORM ROW */
+
+.form-row {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 18px;
+
+}
+
+
+.form-group {
+
+    margin-bottom: 20px;
+
+}
+
+
+.form-group label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #374151;
+
+}
+
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 13px 14px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    background: white;
+
+    color: #111827;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition: .2s;
+
+}
+
+
+.form-group textarea {
+
+    resize: vertical;
+
+}
+
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+
+    border-color: #7c3aed;
+
+    box-shadow:
+        0 0 0 3px rgba(124,58,237,.1);
+
+}
+
+
+/* CHECKBOX */
+
+.booking-check {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 10px;
+
+    margin: 5px 0 20px;
+
+    color: #6b7280;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+}
+
+
+.booking-check input {
+
+    margin-top: 3px;
+
+}
+
+
+/* SUBMIT */
+
+.booking-submit {
+
+    width: 100%;
+
+    padding: 15px;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    background: #7c3aed;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+}
+
+
+.booking-submit span {
+
+    margin-left: 8px;
+
+    font-size: 18px;
+
+}
+
+
+.booking-submit:hover {
+
+    background: #6d28d9;
+
+    transform: translateY(-2px);
+
+}
+
+
+.secure-note {
+
+    text-align: center;
+
+    color: #9ca3af;
+
+    font-size: 11px;
+
+    margin-top: 15px;
+
+}
+
+
+/* ================= STEPS ================= */
+
+.booking-steps {
+
+    padding: 100px 8%;
+
+    background: white;
+
+}
+
+
+.booking-heading {
+
+    text-align: center;
+
+    max-width: 700px;
+
+    margin: auto;
+
+}
+
+
+.booking-heading span {
+
+    color: #7c3aed;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    letter-spacing: 3px;
+
+}
+
+
+.booking-heading h2 {
+
+    font-size: 40px;
+
+    margin: 12px 0;
+
+}
+
+
+.steps-grid {
+
+    max-width: 1100px;
+
+    margin: 55px auto 0;
+
+    display: grid;
+
+    grid-template-columns: repeat(4,1fr);
+
+    gap: 20px;
+
+}
+
+
+.step-card {
+
+    text-align: center;
+
+    padding: 30px 20px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 16px;
+
+}
+
+
+.step-number {
+
+    color: #e5e7eb;
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+}
+
+
+.step-icon {
+
+    font-size: 35px;
+
+    margin: 10px 0;
+
+}
+
+
+.step-card h3 {
+
+    margin: 8px 0;
+
+}
+
+
+.step-card p {
+
+    color: #6b7280;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+}
+
+
+/* ================= CTA ================= */
+
+.booking-cta {
+
+    padding: 110px 8%;
+
+    text-align: center;
+
+    color: white;
+
+    background:
+        radial-gradient(
+            circle at 50% 0,
+            rgba(124,58,237,.3),
+            transparent 40%
+        ),
+        #111827;
+
+}
+
+
+.booking-cta > div {
+
+    max-width: 750px;
+
+    margin: auto;
+
+}
+
+
+.booking-cta span {
+
+    color: #a78bfa;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    letter-spacing: 3px;
+
+}
+
+
+.booking-cta h2 {
+
+    font-size: 45px;
+
+    line-height: 1.15;
+
+    margin: 15px 0;
+
+}
+
+
+.booking-cta p {
+
+    color: #d1d5db;
+
+    line-height: 1.7;
+
+    margin-bottom: 30px;
+
+}
+
+
+.booking-cta a {
+
+    display: inline-block;
+
+    padding: 15px 28px;
+
+    border-radius: 8px;
+
+    background: #7c3aed;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+}
+
+
+/* ================= MOBILE ================= */
+
+@media(max-width:900px) {
+
+    .booking-hero {
+
+        flex-direction: column;
+
+        text-align: center;
+
+    }
+
+
+    .booking-hero-content {
+
+        width: 100%;
+
+    }
+
+
+    .booking-hero-image {
+
+        width: 100%;
+
+    }
+
+
+    .booking-wrapper {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .steps-grid {
+
+        grid-template-columns: 1fr 1fr;
+
+    }
+
+}
+
+
+@media(max-width:600px) {
+
+    .booking-hero {
+
+        padding: 60px 6%;
+
+    }
+
+
+    .booking-hero h1 {
+        font-size: 42px;
+    }
+    .booking-trust {
+        justify-content: center;
+        gap: 20px;
+    }
+
+
+    .booking-form-card {
+
+        padding: 25px 20px;
+
+    }
+
+
+    .form-row {
+
+        grid-template-columns: 1fr;
+
+        gap: 0;
+
+    }
+
+
+    .steps-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .booking-heading h2 {
+
+        font-size: 32px;
+
+    }
+
+
+    .booking-cta h2 {
+
+        font-size: 34px;
+
+    }
+
+}
+
+</style>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+function updatePackage() {
+
+    var service = document.getElementById("service");
+
+    var packageBox = document.getElementById("package");
+
+    var selectedService = service.value;
+
+
+    packageBox.innerHTML = "";
+
+
+    var defaultOption = document.createElement("option");
+
+    defaultOption.value = "";
+
+    defaultOption.text = "Select package";
+
+    packageBox.appendChild(defaultOption);
+
+
+    if (selectedService === "Photography") {
+
+        addPackage("Photography Starter");
+        addPackage("Photo + Event");
+        addPackage("Premium Photography");
+
+    }
+
+    else if (selectedService === "Video") {
+
+        addPackage("Video Shooting");
+        addPackage("Video Editing");
+        addPackage("Premium Video Production");
+
+    }
+
+    else if (selectedService === "Photoshop") {
+
+        addPackage("Background Removal");
+        addPackage("Photo Retouching");
+        addPackage("Wedding Photo Editing");
+
+    }
+
+    else if (selectedService === "Wedding") {
+
+        addPackage("Silver Wedding");
+        addPackage("Gold Wedding");
+        addPackage("Platinum Wedding");
+
+    }
+
+    else if (selectedService === "Corporate") {
+
+        addPackage("Corporate Basic");
+        addPackage("Corporate Standard");
+        addPackage("Corporate Premium");
+
+    }
+
+    else if (selectedService === "Reels") {
+
+        addPackage("1 Reel");
+        addPackage("5 Reels");
+        addPackage("10 Reels");
+
+    }
+
+    else {
+
+        addPackage("Basic Package");
+        addPackage("Standard Package");
+        addPackage("Premium Package");
+        addPackage("Custom Package");
+
+    }
+
+
+    function addPackage(name) {
+
+        var option = document.createElement("option");
+
+        option.value = name;
+
+        option.text = name;
+
+        packageBox.appendChild(option);
+
+    }
+
+}
+
+</script>
+
+{% endblock %}

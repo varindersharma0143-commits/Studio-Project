@@ -1,0 +1,1022 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>
+        {% block title %}{% endblock title %} - My Studio
+    </title>
+
+
+    <!-- Bootstrap -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+          crossorigin="anonymous">
+
+
+    <!-- Your CSS -->
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+
+
+    <style>
+
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background: #f8f9fa;
+        }
+
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .studio-navbar {
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 9999;
+
+            background: rgba(255,255,255,0.97);
+
+            backdrop-filter: blur(12px);
+
+            border-bottom:
+                1px solid #e9ecef;
+
+            box-shadow:
+                0 4px 18px rgba(0,0,0,0.06);
+
+        }
+
+
+        .studio-navbar .container {
+
+            max-width: 1400px;
+
+        }
+
+
+
+        /* =====================================================
+           BRAND
+        ===================================================== */
+
+        .studio-brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            text-decoration: none;
+
+            color: #111827;
+
+            font-size: 21px;
+
+            font-weight: 800;
+
+            letter-spacing: -0.3px;
+
+            margin-right: 28px;
+
+        }
+
+
+        .studio-brand:hover {
+
+            color: #111827;
+
+        }
+
+
+        .brand-icon {
+
+            width: 42px;
+
+            height: 42px;
+
+            border-radius: 11px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #111827,
+                    #4b5563
+                );
+
+            color: white;
+
+            font-size: 20px;
+
+            box-shadow:
+                0 5px 14px rgba(0,0,0,0.15);
+
+        }
+
+
+        .brand-text {
+
+            line-height: 1;
+
+        }
+
+
+        .brand-subtitle {
+
+            display: block;
+
+            margin-top: 4px;
+
+            font-size: 9px;
+
+            font-weight: 600;
+
+            color: #6b7280;
+
+            letter-spacing: 1.5px;
+
+            text-transform: uppercase;
+
+        }
+
+
+
+        /* =====================================================
+           NAV LINKS
+        ===================================================== */
+
+        .studio-nav-link {
+
+            position: relative;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding:
+                10px 13px !important;
+
+            margin: 0 2px;
+
+            color: #374151 !important;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            border-radius: 8px;
+
+            transition: all 0.25s ease;
+
+        }
+
+
+        .studio-nav-link:hover {
+
+            background: #f3f4f6;
+
+            color: #111827 !important;
+
+        }
+
+
+        .studio-nav-link.active {
+
+            color: #111827 !important;
+
+            background: #f3f4f6;
+
+        }
+
+
+
+        /* =====================================================
+           DROPDOWN
+        ===================================================== */
+
+        .studio-dropdown {
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 12px;
+
+            padding: 8px;
+
+            min-width: 210px;
+
+            margin-top: 8px;
+
+            box-shadow:
+                0 12px 30px rgba(0,0,0,0.12);
+
+        }
+
+
+        .studio-dropdown .dropdown-item {
+
+            padding: 10px 12px;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #374151;
+
+        }
+
+
+        .studio-dropdown .dropdown-item:hover {
+
+            background: #f3f4f6;
+
+            color: #111827;
+
+        }
+
+
+
+        /* =====================================================
+           RIGHT BUTTONS
+        ===================================================== */
+
+        .navbar-actions {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            margin-left: auto;
+
+        }
+
+
+        .nav-login-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 6px;
+
+            padding: 9px 15px;
+
+            border-radius: 8px;
+
+            color: #374151;
+
+            background: #f3f4f6;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            transition: 0.2s;
+
+        }
+
+
+        .nav-login-btn:hover {
+
+            background: #e5e7eb;
+
+            color: #111827;
+
+        }
+
+
+        .nav-booking-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 6px;
+
+            padding: 10px 17px;
+
+            border-radius: 8px;
+
+            background: #111827;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            box-shadow:
+                0 4px 12px rgba(0,0,0,0.15);
+
+            transition: all 0.25s ease;
+
+        }
+
+
+        .nav-booking-btn:hover {
+
+            background: #374151;
+
+            color: white;
+
+            transform: translateY(-1px);
+
+        }
+
+
+
+        /* =====================================================
+           ADMIN BUTTON
+        ===================================================== */
+
+        .nav-admin-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 6px;
+
+            padding: 9px 13px;
+
+            border-radius: 8px;
+
+            background: white;
+
+            color: #374151;
+
+            border: 1px solid #d1d5db;
+
+            text-decoration: none;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            transition: 0.2s;
+
+        }
+
+
+        .nav-admin-btn:hover {
+
+            background: #111827;
+
+            border-color: #111827;
+
+            color: white;
+
+        }
+
+
+
+        /* =====================================================
+           FLASH MESSAGE
+        ===================================================== */
+
+        .flash-message {
+
+            position: fixed;
+
+            top: 85px;
+
+            right: 20px;
+
+            min-width: 320px;
+
+            max-width: 450px;
+
+            padding: 15px 20px;
+
+            border-radius: 9px;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            z-index: 99999;
+
+            box-shadow:
+                0 7px 25px rgba(0,0,0,0.18);
+
+            animation:
+                flashIn 0.5s ease-out,
+                flashOut 0.5s ease-in 4.5s forwards;
+
+        }
+
+
+        .flash-message.alert-success {
+
+            background: #d1e7dd;
+
+            color: #0f5132;
+
+            border: 1px solid #badbcc;
+
+        }
+
+
+        .flash-message.alert-danger {
+
+            background: #f8d7da;
+
+            color: #842029;
+
+            border: 1px solid #f5c2c7;
+
+        }
+
+
+        .flash-message.alert-warning {
+
+            background: #fff3cd;
+
+            color: #664d03;
+
+            border: 1px solid #ffecb5;
+
+        }
+
+
+        .flash-message.alert-info {
+
+            background: #cff4fc;
+
+            color: #055160;
+
+            border: 1px solid #b6effb;
+
+        }
+
+
+        @keyframes flashIn {
+
+            from {
+
+                right: -500px;
+
+                opacity: 0;
+
+            }
+
+            to {
+
+                right: 20px;
+
+                opacity: 1;
+
+            }
+
+        }
+
+
+        @keyframes flashOut {
+
+            from {
+
+                right: 20px;
+
+                opacity: 1;
+
+            }
+
+            to {
+
+                right: -500px;
+
+                opacity: 0;
+
+            }
+
+        }
+
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .footer {
+
+            background: #111827;
+
+            color: #d1d5db;
+
+            padding: 25px 0;
+
+            margin-top: auto;
+
+        }
+
+
+        .footer hr {
+
+            border-color:
+                rgba(255,255,255,0.15);
+
+        }
+
+
+        .footer small {
+
+            font-size: 13px;
+
+            color: #9ca3af;
+
+        }
+
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 1200px) {
+
+            .studio-brand {
+
+                margin-right: 10px;
+
+            }
+
+            .studio-nav-link {
+
+                padding:
+                    9px 8px !important;
+
+                font-size: 13px;
+
+            }
+
+        }
+
+
+        @media (max-width: 991px) {
+
+            .studio-navbar {
+
+                position: relative;
+
+            }
+
+
+            .studio-brand {
+
+                margin-right: 0;
+
+            }
+
+
+            .navbar-actions {
+
+                margin-top: 15px;
+
+                padding-top: 15px;
+
+                border-top:
+                    1px solid #e5e7eb;
+
+                width: 100%;
+
+                flex-wrap: wrap;
+
+            }
+
+
+            .nav-login-btn,
+            .nav-booking-btn,
+            .nav-admin-btn {
+
+                flex: 1;
+
+                min-width: 120px;
+
+            }
+
+
+            .studio-dropdown {
+
+                box-shadow: none;
+
+                border: none;
+
+                background: #f8f9fa;
+
+                margin-top: 0;
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .flash-message {
+
+                top: 70px;
+
+                right: 10px;
+
+                left: 10px;
+
+                min-width: auto;
+
+                max-width: none;
+
+                font-size: 14px;
+
+            }
+
+
+            @keyframes flashIn {
+
+                from {
+
+                    right: -500px;
+
+                    opacity: 0;
+
+                }
+
+                to {
+
+                    right: 10px;
+
+                    opacity: 1;
+
+                }
+
+            }
+
+
+            @keyframes flashOut {
+
+                from {
+
+                    right: 10px;
+
+                    opacity: 1;
+
+                }
+
+                to {
+
+                    right: -500px;
+
+                    opacity: 0;
+
+                }
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav class="navbar navbar-expand-lg studio-navbar">
+
+    <div class="container">
+
+
+        <!-- BRAND -->
+
+        <a class="studio-brand"
+           href="{{ url_for('index1') }}">
+
+            <span class="brand-icon">
+                📸
+            </span>
+
+            <span class="brand-text">
+
+                Himanshu Films
+
+                <span class="brand-subtitle">
+                    Photo • Video • Creative
+                </span>
+
+            </span>
+
+        </a>
+
+
+
+        <!-- MOBILE TOGGLE -->
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#studioNavbar"
+                aria-controls="studioNavbar"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+
+
+        <!-- MENU -->
+
+        <div class="collapse navbar-collapse"
+             id="studioNavbar">
+
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+
+                <!-- HOME -->
+
+                <li class="nav-item">
+
+                    <a class="nav-link studio-nav-link"
+                       href="{{ url_for('index1') }}">
+
+                        🏠 Home
+
+                    </a>
+
+                </li>
+
+
+
+                <!-- ABOUT -->
+
+                <li class="nav-item">
+
+                    <a class="nav-link studio-nav-link"
+                       href="{{ url_for('about') }}">
+                       
+                        ℹ️ About
+
+                    </a>
+
+                </li>
+
+
+
+                <!-- SERVICES -->
+
+                <li class="nav-item dropdown">
+
+                    <a class="nav-link studio-nav-link dropdown-toggle"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+
+                        ✨ Services
+
+                    </a>
+
+
+                    <ul class="dropdown-menu studio-dropdown">
+
+
+                        <li>
+
+                            <a class="dropdown-item"
+                               href="{{ url_for('photoshop') }}">
+
+                                🎨 Photoshop Services
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a class="dropdown-item"
+                               href="{{ url_for('video') }}">
+
+                                🎥 Video Recording
+
+                            </a>
+
+                        </li>
+
+
+                    </ul>
+
+                </li>
+
+
+
+                <!-- MORE -->
+
+                <li class="nav-item dropdown">
+
+                    <a class="nav-link studio-nav-link dropdown-toggle"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+
+                        📂 More
+
+                    </a>
+
+
+                    <ul class="dropdown-menu studio-dropdown">
+
+
+                        <li>
+
+                            <a class="dropdown-item"
+                               href="{{ url_for('portfolio') }}">
+
+                                🖼️ Portfolio / Gallery
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a class="dropdown-item"
+                               href="{{ url_for('pricing') }}">
+
+                                💰 Pricing
+
+                            </a>
+
+                        </li>
+
+
+                    </ul>
+
+                </li>
+
+
+            </ul>
+
+
+
+            <!-- RIGHT ACTIONS -->
+
+            <div class="navbar-actions">
+                <!-- BOOKING -->
+
+                <a href="{{ url_for('booking') }}"
+                   class="nav-booking-btn">
+
+                    📅 Book Now
+
+                </a>
+
+
+                <!-- ADMIN -->
+
+                <a href="{{ url_for('admin_login') }}"
+                   class="nav-admin-btn">
+
+                    🛡️ Admin
+
+                </a>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     FLASH MESSAGE
+===================================================== -->
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% if messages %}
+
+        {% for category, message in messages %}
+
+            <div class="flash-message alert alert-{{ category }}">
+
+                {{ message }}
+
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+{% endwith %}
+
+
+
+<!-- =====================================================
+     PAGE CONTENT
+===================================================== -->
+
+{% block body %}
+
+{% endblock body %}
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    <div class="container">
+
+        <hr>
+
+        <div class="text-center">
+
+            <small>
+                © 2026 My Studio. All Rights Reserved.
+            </small>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+<!-- Bootstrap JS -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+</body>
+
+</html>

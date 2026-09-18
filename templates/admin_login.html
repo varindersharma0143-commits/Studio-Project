@@ -1,0 +1,475 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Login{% endblock title %}
+
+{% block body %}
+
+<style>
+
+    .admin-login-page {
+        min-height: calc(100vh - 80px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 50px 15px 120px;
+
+        background:
+            linear-gradient(
+                rgba(0, 0, 0, 0.70),
+                rgba(0, 0, 0, 0.70)
+            ),
+            url("https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1800&q=90")
+            center/cover no-repeat;
+    }
+
+
+    /* LOGIN CARD */
+
+    .admin-login-card {
+        width: 100%;
+        max-width: 450px;
+
+        background: rgba(255, 255, 255, 0.97);
+
+        border-radius: 22px;
+
+        padding: 40px;
+
+        box-shadow:
+            0 20px 60px rgba(0, 0, 0, 0.35);
+
+        animation: loginCard 0.6s ease;
+    }
+
+
+    @keyframes loginCard {
+
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    }
+
+
+    /* LOGO */
+
+    .admin-logo {
+        width: 75px;
+        height: 75px;
+
+        margin: 0 auto 20px;
+
+        border-radius: 50%;
+
+        background: #212529;
+
+        color: white;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 32px;
+
+        box-shadow:
+            0 8px 20px rgba(0, 0, 0, 0.20);
+    }
+
+
+    .admin-login-title {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+
+    .admin-login-title h1 {
+        font-size: 30px;
+        font-weight: 800;
+        color: #212529;
+        margin-bottom: 8px;
+    }
+
+
+    .admin-login-title p {
+        color: #6c757d;
+        margin: 0;
+        font-size: 14px;
+    }
+
+
+    /* FORM */
+
+    .admin-form-group {
+        margin-bottom: 20px;
+    }
+
+
+    .admin-form-group label {
+        display: block;
+
+        margin-bottom: 8px;
+
+        font-size: 14px;
+
+        font-weight: 700;
+
+        color: #343a40;
+    }
+
+
+    .admin-input-wrapper {
+        position: relative;
+    }
+
+
+    .admin-input {
+        width: 100%;
+
+        height: 52px;
+
+        padding: 0 45px 0 45px;
+
+        border: 1px solid #dee2e6;
+
+        border-radius: 10px;
+
+        outline: none;
+
+        font-size: 15px;
+
+        transition: 0.3s;
+    }
+
+
+    .admin-input:focus {
+        border-color: #212529;
+
+        box-shadow:
+            0 0 0 3px rgba(33, 37, 41, 0.10);
+    }
+
+
+    .input-icon {
+        position: absolute;
+
+        left: 15px;
+
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        font-size: 18px;
+
+        color: #6c757d;
+
+        pointer-events: none;
+    }
+
+
+    .password-toggle {
+        position: absolute;
+
+        right: 15px;
+
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        border: none;
+
+        background: transparent;
+
+        cursor: pointer;
+
+        font-size: 18px;
+
+        color: #6c757d;
+    }
+
+
+    .password-toggle:hover {
+        color: #212529;
+    }
+
+
+    /* LOGIN BUTTON */
+
+    .admin-login-btn {
+        width: 100%;
+
+        height: 52px;
+
+        border: none;
+
+        border-radius: 10px;
+
+        background: #212529;
+
+        color: white;
+
+        font-size: 16px;
+
+        font-weight: 700;
+
+        cursor: pointer;
+
+        transition: 0.3s;
+
+        margin-top: 5px;
+    }
+
+
+    .admin-login-btn:hover {
+        background: #000;
+
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 8px 20px rgba(0, 0, 0, 0.20);
+    }
+
+
+    /* SECURITY */
+
+    .security-message {
+        margin-top: 25px;
+
+        padding: 13px;
+
+        background: #f8f9fa;
+
+        border-radius: 10px;
+
+        text-align: center;
+
+        font-size: 12px;
+
+        color: #6c757d;
+    }
+
+
+    .security-message span {
+        color: #198754;
+
+        font-weight: 700;
+    }
+
+
+    /* BACK */
+
+    .back-home {
+        text-align: center;
+
+        margin-top: 20px;
+    }
+
+
+    .back-home a {
+        color: #495057;
+
+        text-decoration: none;
+
+        font-size: 14px;
+
+        font-weight: 600;
+    }
+
+
+    .back-home a:hover {
+        color: #000;
+
+        text-decoration: underline;
+    }
+
+
+    /* MOBILE */
+
+    @media (max-width: 600px) {
+
+        .admin-login-page {
+            padding: 35px 15px 120px;
+        }
+
+        .admin-login-card {
+            padding: 30px 22px;
+
+            border-radius: 18px;
+        }
+
+        .admin-login-title h1 {
+            font-size: 26px;
+        }
+
+    }
+
+</style>
+
+
+<div class="admin-login-page">
+
+    <div class="admin-login-card">
+
+
+        <!-- LOGO -->
+
+        <div class="admin-logo">
+            📷
+        </div>
+
+
+        <!-- TITLE -->
+
+        <div class="admin-login-title">
+
+            <h1>
+                Admin Login
+            </h1>
+
+            <p>
+                Sign in to manage your studio dashboard
+            </p>
+
+        </div>
+
+
+        <!-- LOGIN FORM -->
+
+        <form method="POST"
+              action="{{ url_for('admin_login') }}">
+
+
+            <!-- USERNAME -->
+
+            <div class="admin-form-group">
+
+                <label>
+                    Username
+                </label>
+
+                <div class="admin-input-wrapper">
+
+                    <span class="input-icon">
+                        👤
+                    </span>
+
+                    <input
+                        type="text"
+                        name="username"
+                        class="admin-input"
+                        placeholder="Enter admin username"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="admin-form-group">
+
+                <label>
+                    Password
+                </label>
+
+                <div class="admin-input-wrapper">
+
+                    <span class="input-icon">
+                        🔒
+                    </span>
+
+                    <input
+                        type="password"
+                        name="password"
+                        id="adminPassword"
+                        class="admin-input"
+                        placeholder="Enter password"
+                        required>
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        onclick="togglePassword()">
+
+                        👁
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOGIN BUTTON -->
+
+            <button
+                type="submit"
+                class="admin-login-btn">
+
+                🔐 Login to Dashboard
+
+            </button>
+
+
+        </form>
+
+
+        <!-- SECURITY -->
+
+        <div class="security-message">
+
+            🔒 <span>Secure Admin Area</span>
+
+            <br>
+
+            Only authorized users can access the dashboard.
+
+        </div>
+
+
+        <!-- BACK -->
+
+        <div class="back-home">
+
+            <a href="{{ url_for('index1') }}">
+                ← Back to Website
+            </a>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+    function togglePassword() {
+
+        const password =
+            document.getElementById("adminPassword");
+
+        if (password.type === "password") {
+
+            password.type = "text";
+
+        } else {
+
+            password.type = "password";
+
+        }
+
+    }
+
+</script>
+
+
+{% endblock body %}

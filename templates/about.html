@@ -1,0 +1,870 @@
+{% extends "base.html" %}
+
+{% block title %}Photoshop Services - Photo & Video Studio{% endblock %}
+
+{% block body %}
+
+<style>
+    .about-page {
+        background: #faf9f6;
+        color: #202020;
+        font-family: Arial, sans-serif;
+    }
+
+    /* HERO */
+    .about-hero {
+        min-height: 620px;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        background:
+            radial-gradient(circle at 85% 20%, rgba(184,145,76,.13), transparent 30%),
+            linear-gradient(135deg, #fff 0%, #faf9f6 55%, #f3eee5 100%);
+    }
+
+    .about-hero-content {
+        padding: 80px 0;
+    }
+
+    .about-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #a17a37;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+    }
+
+    .about-hero h1 {
+        font-family: Georgia, serif;
+        font-size: clamp(46px, 6vw, 78px);
+        line-height: 1.02;
+        margin: 0 0 25px;
+        font-weight: 500;
+        color: #171717;
+    }
+
+    .about-hero h1 span {
+        color: #a17a37;
+        font-style: italic;
+    }
+
+    .about-hero-text {
+        max-width: 620px;
+        font-size: 18px;
+        line-height: 1.8;
+        color: #666;
+        margin-bottom: 32px;
+    }
+
+    .about-hero-buttons {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    .about-primary-btn {
+        background: #1c1c1c;
+        color: white;
+        padding: 14px 25px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 700;
+        transition: .3s;
+    }
+
+    .about-primary-btn:hover {
+        background: #a17a37;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .about-secondary-btn {
+        border: 1px solid #d8c8aa;
+        color: #8c6a31;
+        padding: 13px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 700;
+        background: rgba(255,255,255,.7);
+    }
+
+    /* OWNER IMAGE */
+    .owner-photo-wrap {
+        position: relative;
+        max-width: 460px;
+        margin: auto;
+    }
+
+    .owner-photo {
+        width: 100%;
+        height: 540px;
+        object-fit: cover;
+        border-radius: 240px 240px 18px 18px;
+        box-shadow: 0 25px 60px rgba(0,0,0,.16);
+    }
+
+    .experience-badge {
+        position: absolute;
+        left: -35px;
+        bottom: 35px;
+        width: 135px;
+        height: 135px;
+        border-radius: 50%;
+        background: #fff;
+        border: 1px solid #e2d4b9;
+        box-shadow: 0 15px 40px rgba(0,0,0,.12);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .experience-badge strong {
+        font-size: 31px;
+        color: #a17a37;
+        font-family: Georgia, serif;
+    }
+
+    .experience-badge span {
+        font-size: 12px;
+        color: #555;
+        font-weight: 700;
+    }
+
+    /* STATS */
+    .about-stats {
+        background: #1d1d1d;
+        color: white;
+        padding: 35px 0;
+    }
+
+    .stat-item {
+        text-align: center;
+        border-right: 1px solid rgba(255,255,255,.12);
+    }
+
+    .stat-item:last-child {
+        border-right: none;
+    }
+
+    .stat-item strong {
+        display: block;
+        font-family: Georgia, serif;
+        font-size: 38px;
+        color: #d7b878;
+    }
+
+    .stat-item span {
+        color: #bbb;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* SECTION */
+    .about-section {
+        padding: 95px 0;
+    }
+
+    .section-label {
+        color: #a17a37;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+
+    .section-title {
+        font-family: Georgia, serif;
+        font-size: clamp(35px, 4vw, 52px);
+        font-weight: 500;
+        margin-bottom: 20px;
+        color: #1c1c1c;
+    }
+
+    .section-description {
+        color: #666;
+        line-height: 1.8;
+        font-size: 16px;
+    }
+
+    /* STORY */
+    .story-image {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+        border-radius: 18px;
+        box-shadow: 0 20px 50px rgba(0,0,0,.12);
+    }
+
+    .story-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 30px;
+    }
+
+    .story-list li {
+        margin-bottom: 15px;
+        display: flex;
+        gap: 12px;
+        color: #555;
+    }
+
+    .story-list li span {
+        color: #a17a37;
+        font-weight: bold;
+    }
+
+    /* EQUIPMENT */
+    .equipment-section {
+        background: #f1ede5;
+        padding: 95px 0;
+    }
+
+    .equipment-card {
+        background: white;
+        padding: 32px;
+        height: 100%;
+        border-radius: 16px;
+        border: 1px solid #e8dfd0;
+        transition: .3s;
+    }
+
+    .equipment-card:hover {
+        transform: translateY(-7px);
+        box-shadow: 0 20px 45px rgba(0,0,0,.10);
+    }
+
+    .equipment-icon {
+        width: 58px;
+        height: 58px;
+        border-radius: 14px;
+        background: #f5eee2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 27px;
+        margin-bottom: 20px;
+    }
+
+    .equipment-card h3 {
+        font-family: Georgia, serif;
+        font-size: 25px;
+        margin-bottom: 15px;
+    }
+
+    .equipment-card p {
+        color: #666;
+        line-height: 1.7;
+        margin-bottom: 20px;
+    }
+
+    .equipment-card ul {
+        padding-left: 18px;
+        color: #555;
+        line-height: 2;
+    }
+
+    /* SERVICES */
+    .service-box {
+        padding: 30px;
+        border: 1px solid #e5ded2;
+        border-radius: 15px;
+        background: #fff;
+        height: 100%;
+    }
+
+    .service-number {
+        color: #b18a4b;
+        font-family: Georgia, serif;
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .service-box h4 {
+        font-family: Georgia, serif;
+        font-size: 24px;
+    }
+
+    .service-box p {
+        color: #666;
+        line-height: 1.7;
+    }
+
+    /* QUALITY */
+    .quality-section {
+        padding: 95px 0;
+        background: #fff;
+    }
+
+    .quality-card {
+        text-align: center;
+        padding: 25px;
+    }
+
+    .quality-icon {
+        font-size: 35px;
+        margin-bottom: 15px;
+    }
+
+    .quality-card h4 {
+        font-family: Georgia, serif;
+        font-size: 21px;
+    }
+
+    .quality-card p {
+        color: #666;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    /* CTA */
+    .about-cta {
+        padding: 90px 20px;
+        background:
+            linear-gradient(rgba(20,20,20,.75), rgba(20,20,20,.75)),
+            url("https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1800&q=85")
+            center/cover;
+        text-align: center;
+        color: white;
+    }
+
+    .about-cta h2 {
+        font-family: Georgia, serif;
+        font-size: clamp(36px, 5vw, 60px);
+        margin-bottom: 18px;
+    }
+
+    .about-cta p {
+        max-width: 650px;
+        margin: 0 auto 30px;
+        color: #ddd;
+        line-height: 1.7;
+    }
+
+    .cta-btn {
+        display: inline-block;
+        background: #c29b59;
+        color: white;
+        padding: 15px 30px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 700;
+    }
+
+    .cta-btn:hover {
+        background: #d5b77f;
+        color: #111;
+    }
+
+    @media(max-width: 991px) {
+        .about-hero {
+            text-align: center;
+        }
+
+        .about-hero-text {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .about-hero-buttons {
+            justify-content: center;
+        }
+
+        .owner-photo-wrap {
+            margin-top: 50px;
+        }
+    }
+
+    @media(max-width: 767px) {
+        .about-section,
+        .equipment-section,
+        .quality-section {
+            padding: 65px 0;
+        }
+
+        .owner-photo {
+            height: 430px;
+        }
+
+        .experience-badge {
+            left: 5px;
+        }
+
+        .stat-item {
+            border-right: none;
+            border-bottom: 1px solid rgba(255,255,255,.12);
+            padding: 18px;
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+    }
+</style>
+
+
+<div class="about-page">
+
+    <!-- HERO -->
+    <section class="about-hero">
+        <div class="container">
+            <div class="row align-items-center">
+
+                <div class="col-lg-7">
+                    <div class="about-hero-content">
+
+                        <div class="about-label">
+                            ✦ ABOUT OUR STUDIO
+                        </div>
+
+                        <h1>
+                            We Capture<br>
+                            <span>More Than Moments.</span>
+                        </h1>
+
+                        <p class="about-hero-text">
+                            We are a passionate photography and filmmaking studio
+                            dedicated to turning real emotions, beautiful people
+                            and unforgettable moments into timeless visual stories.
+                        </p>
+
+                        <div class="about-hero-buttons">
+                            <a href="{{ url_for('portfolio') }}"
+                               class="about-primary-btn">
+                                Explore Our Work →
+                            </a>
+
+                            <a href="{{ url_for('booking') }}"
+                               class="about-secondary-btn">
+                                Book a Session
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-5">
+
+                    <div class="owner-photo-wrap">
+
+                        <!-- TEMPORARY OWNER PHOTO -->
+                        <img
+                            src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=85"
+                            class="owner-photo"
+                            alt="Studio Photographer">
+
+                        <div class="experience-badge">
+                            <strong>10+</strong>
+                            <span>YEARS<br>EXPERIENCE</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- STATS -->
+    <section class="about-stats">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-3 col-6 stat-item">
+                    <strong>10+</strong>
+                    <span>Years Experience</span>
+                </div>
+
+                <div class="col-md-3 col-6 stat-item">
+                    <strong>2K+</strong>
+                    <span>Happy Clients</span>
+                </div>
+
+                <div class="col-md-3 col-6 stat-item">
+                    <strong>5K+</strong>
+                    <span>Events Covered</span>
+                </div>
+
+                <div class="col-md-3 col-6 stat-item">
+                    <strong>4K</strong>
+                    <span>Video Production</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- OUR STORY -->
+    <section class="about-section">
+        <div class="container">
+
+            <div class="row align-items-center g-5">
+
+                <div class="col-lg-6">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1000&q=85"
+                        class="story-image"
+                        alt="Wedding Photography">
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <div class="section-label">
+                        OUR STORY
+                    </div>
+
+                    <h2 class="section-title">
+                        Passion Behind<br>
+                        Every Frame
+                    </h2>
+
+                    <p class="section-description">
+                        Photography is not just about pressing the shutter.
+                        It is about understanding light, emotion, timing and
+                        people.
+                    </p>
+
+                    <p class="section-description">
+                        Our approach combines modern photography techniques,
+                        cinematic storytelling and professional post-production
+                        to create photographs and films that feel natural,
+                        emotional and timeless.
+                    </p>
+
+                    <ul class="story-list">
+
+                        <li>
+                            <span>✓</span>
+                            Creative and natural photography
+                        </li>
+
+                        <li>
+                            <span>✓</span>
+                            Professional lighting setup
+                        </li>
+
+                        <li>
+                            <span>✓</span>
+                            Cinematic 4K video production
+                        </li>
+
+                        <li>
+                            <span>✓</span>
+                            Professional color grading
+                        </li>
+
+                        <li>
+                            <span>✓</span>
+                            Carefully edited final delivery
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- EQUIPMENT -->
+    <section class="equipment-section">
+
+        <div class="container">
+
+            <div class="text-center mb-5">
+
+                <div class="section-label">
+                    PROFESSIONAL EQUIPMENT
+                </div>
+
+                <h2 class="section-title">
+                    Quality Starts With The Right Gear
+                </h2>
+
+                <p class="section-description mx-auto"
+                   style="max-width:700px;">
+                    We use professional photography and video equipment
+                    designed to deliver sharp images, beautiful skin tones,
+                    cinematic movement and reliable performance.
+                </p>
+
+            </div>
+
+
+            <div class="row g-4">
+
+                <!-- CAMERA -->
+                <div class="col-lg-4 col-md-6">
+
+                    <div class="equipment-card">
+
+                        <div class="equipment-icon">
+                            📷
+                        </div>
+
+                        <h3>Professional Cameras</h3>
+
+                        <p>
+                            High-resolution full-frame camera systems
+                            for portraits, weddings, events and commercial
+                            photography.
+                        </p>
+
+                        <ul>
+                            <li>Full-frame sensor technology</li>
+                            <li>High-resolution photography</li>
+                            <li>Fast autofocus</li>
+                            <li>Low-light performance</li>
+                            <li>Professional RAW workflow</li>
+                        </ul>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LENS -->
+                <div class="col-lg-4 col-md-6">
+
+                    <div class="equipment-card">
+
+                        <div class="equipment-icon">
+                            🔭
+                        </div>
+
+                        <h3>Professional Lenses</h3>
+
+                        <p>
+                            A carefully selected range of prime and zoom
+                            lenses for creative compositions and beautiful
+                            background separation.
+                        </p>
+
+                        <ul>
+                            <li>Portrait lenses</li>
+                            <li>Wide-angle lenses</li>
+                            <li>Telephoto lenses</li>
+                            <li>Fast aperture lenses</li>
+                            <li>Event coverage lenses</li>
+                        </ul>
+
+                    </div>
+
+                </div>
+
+
+                <!-- VIDEO -->
+                <div class="col-lg-4 col-md-6">
+
+                    <div class="equipment-card">
+
+                        <div class="equipment-icon">
+                            🎥
+                        </div>
+
+                        <h3>4K Video Production</h3>
+
+                        <p>
+                            Cinematic video equipment for wedding films,
+                            pre-wedding shoots, promotional videos and
+                            special events.
+                        </p>
+
+                        <ul>
+                            <li>4K video recording</li>
+                            <li>Gimbal stabilization</li>
+                            <li>Professional microphones</li>
+                            <li>LED lighting</li>
+                            <li>Cinematic color grading</li>
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SERVICES -->
+    <section class="about-section">
+
+        <div class="container">
+
+            <div class="text-center mb-5">
+
+                <div class="section-label">
+                    WHAT WE DO
+                </div>
+
+                <h2 class="section-title">
+                    From Camera To Final Delivery
+                </h2>
+
+            </div>
+
+
+            <div class="row g-4">
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="service-box">
+                        <div class="service-number">01</div>
+                        <h4>Weddings</h4>
+                        <p>
+                            Complete wedding photography and cinematic
+                            wedding films covering every important emotion.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="service-box">
+                        <div class="service-number">02</div>
+                        <h4>Pre-Weddings</h4>
+                        <p>
+                            Romantic outdoor and cinematic couple shoots
+                            designed around your story.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="service-box">
+                        <div class="service-number">03</div>
+                        <h4>Portraits</h4>
+                        <p>
+                            Professional portraits for personal branding,
+                            fashion, family and special occasions.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="service-box">
+                        <div class="service-number">04</div>
+                        <h4>Commercial</h4>
+                        <p>
+                            Product, corporate and promotional photography
+                            created for modern businesses.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- QUALITY -->
+    <section class="quality-section">
+
+        <div class="container">
+
+            <div class="text-center mb-5">
+
+                <div class="section-label">
+                    OUR PROMISE
+                </div>
+
+                <h2 class="section-title">
+                    Why Clients Choose Us
+                </h2>
+
+            </div>
+
+            <div class="row g-4">
+
+                <div class="col-md-3 col-6">
+                    <div class="quality-card">
+                        <div class="quality-icon">✨</div>
+                        <h4>Creative</h4>
+                        <p>
+                            Every shoot is planned with a creative visual
+                            approach.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-6">
+                    <div class="quality-card">
+                        <div class="quality-icon">🎯</div>
+                        <h4>Detail Focused</h4>
+                        <p>
+                            We carefully focus on lighting, composition
+                            and emotion.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-6">
+                    <div class="quality-card">
+                        <div class="quality-icon">🎬</div>
+                        <h4>Cinematic</h4>
+                        <p>
+                            Our video work is designed to feel like a
+                            cinematic story.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-6">
+                    <div class="quality-card">
+                        <div class="quality-icon">❤️</div>
+                        <h4>Personal</h4>
+                        <p>
+                            We make every client experience comfortable
+                            and memorable.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CTA -->
+    <section class="about-cta">
+
+        <h2>
+            Let's Create Something<br>
+            Beautiful Together.
+        </h2>
+
+        <p>
+            Your story deserves more than ordinary photographs.
+            Let's turn your special moments into photographs and films
+            you will love for years to come.
+        </p>
+
+        <a href="{{ url_for('booking') }}" class="cta-btn">
+            📅 Book Your Session
+        </a>
+
+    </section>
+
+</div>
+
+{% endblock body %}

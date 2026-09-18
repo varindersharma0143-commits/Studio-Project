@@ -24,7 +24,7 @@ class Todo(db.Model):
         return f"{self.sno} - {self.title}"
  
 
-@app.route('/', methods=["GET", "POST"])
+@app.route('/index1', methods=["GET", "POST"])
 def hello_world():
     if request.method == 'POST':     
         title = request.form['title']
@@ -118,7 +118,7 @@ def register():
 
     return render_template('register.html')
 
-@app.route('/index1')
+@app.route('/')
 def index1():   
     return render_template('index1.html')
 
